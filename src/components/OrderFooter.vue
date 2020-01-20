@@ -1,11 +1,10 @@
 <template>
-  <div>alipay</div>
+  <div>orderfooter</div>
 </template>
 
 <script>
 export default {
-  // 取任何名字都行
-  name: 'alipayasasasasasasasas'
+  name: 'order-footer'
 }
 
 </script>

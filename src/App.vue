@@ -1,16 +1,28 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <div></div>
   </div>
 </template>
 
 <script>
-
-
+import axios from 'axios'
 export default {
   name: 'app',
   components: {
-    
+  },
+  data () {
+    return {
+      data: ''
+    }
+  },
+  mounted () {
+    const url = '/api/search/hotwords'
+    axios.get(url).then((res) => {
+      if (res.result === 0 && res.data) {
+        console.log(res.data)
+      }
+    })
   }
 }
 </script>
