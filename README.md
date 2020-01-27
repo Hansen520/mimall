@@ -58,4 +58,54 @@ export default new Router({
       }]
     }]
 ```
-像上面一样，home为主路由，而children里面为分路由。在主路由里面的vue页面上写上<router-view>标签，就可以将子路由的内容页面插入到里面。
+像上面一样，home为主路由，而children里面为分路由。在主路由里面的vue页面上写上```<router-view>```标签，就可以将子路由的内容页面插入到里面。
+
+### storage
+这个主要设置localsession的封装的，用于会话处理机制的
+
+### 接口错误拦截
+主要在mian.js里面通过axios.interceptors.response.use返回拦截的方式处理一些状态码，并通过状态吗做一些处理
+
+### 接口环境设置
+main.js里面,
+```
+// 根据前端的跨域方式做调整 /a/b : /api/a/b => /a/b,因为我们在每条接口上都写上了api
+axios.defaults.baseURL = '/api'
+// 默认设置时间未8000，比如超出8秒一定要做设置，不然用户体验不好
+axios.defaults.timeout = 8000
+// 根据环境变量获取不同的请求地址
+axios.defaults.baseURL = env.baseURL
+```
+env.js
+```
+let baseURL
+/**
+ * process.env.NODE_ENV 是通过nodejs的方式寻找当前环境是开发模式开始生产模式
+ * 切记这个是cors跨域模式或者是jsonp跨域模式下的，而proxy不用这玩意 */
+
+if (process.env.NODE_ENV === 'development') {
+  baseURL = 'http://dev-mall-pre.springboot.cn/api'
+} else if (process.env.NODE_ENV === 'test') {
+  baseURL = 'http://test-mall-pre.springboot.cn/api'
+} else if (process.env.NODE_ENV === 'production') {
+  baseURL = 'http://mall-pre.springboot.cn/api'
+} else {
+  baseURL = 'http://mall-pre.springboot.cn/api'
+}
+
+export default {
+  baseURL
+}
+```
+package.json
+其中development是开发环境的，production是生产环境的
+```
+    "serve": "vue-cli-service serve --mode=development",
+    "test" : "vue-cli-service serve --mode=test",
+    "build": "vue-cli-service build --mode=production",
+```
+
+### mock模拟的三种方式
+优先选择easy-mock，因为这个和我们请求数据xml最接近
+其次选择mock集成，就是安装mock.js
+最后再考虑本地json数据的方式
