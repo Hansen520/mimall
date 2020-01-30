@@ -226,6 +226,7 @@ export default {
               top: 112px;
               left: 0;
               opacity: 0;
+              background-color: #fff;
               transition: height .5s;
               width: 1226px;
               height:0;
