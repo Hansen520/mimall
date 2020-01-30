@@ -196,8 +196,7 @@ export default {
               @include bgImg(55px,55px,'/imgs/mi-home.png',55px);
             }
             &:hover:before{
-              margin-left: -59px;
-              transition: margin .2s;
+              margin-left: -56px;
             }
           }
         }
