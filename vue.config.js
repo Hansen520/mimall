@@ -5,9 +5,9 @@ module.exports = {
     proxy: {
       // 这个对应本地的api接口
       '/api': {
-        target: 'https://www.imooc.com',
+        target: 'http://mall-pre.springboot.cn',
         changeOrigin: true,
-        pathRewroter: {
+        pathRewrite: {
           // 将所有有api的接口的api字符产变成空
           '/api': ''
         }
