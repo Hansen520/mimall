@@ -70,10 +70,32 @@
           <img src="/imgs/banner-1.png" alt="">
         </a>
       </div>
-      <div class="product-box">
-
-      </div>
     </div>
+      <div class="product-box">
+        <div class="container">
+          <h2>手机</h2>
+          <div class="wrapper">
+            <div class="banner-left">
+              <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/574c6643ab91c6618bfb2d0e2c761d0b.jpg?thumb=1&w=293&h=768&f=webp&q=90" alt="">
+            </div>
+            <div class="list-box">
+              <div class="list" v-for="(arr, i) in phoneList" :key="i">
+                <div class="item" v-for="(item, j) in arr"  :key="j">
+                  <span v-bind:class="{'kill-pro': j}">秒杀</span>
+                  <div class="item-img">
+                    <img :src="item.mainImage" alt="">
+                  </div>
+                  <div class="item-info">
+                    <h3>{{item.name}}</h3>
+                    <p>{{item.subtitle}}</p>
+                    <p class="price">{{item.price}}元起</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     <suervice-bar></suervice-bar>
   </div>
 </template>
@@ -169,7 +191,23 @@ export default {
           id: 47,
           img: '/imgs/ads/ads-4.jpg'
         }
-      ]
+      ],
+      phoneList: []
+    }
+  },
+  mounted () {
+    this.init()
+  },
+  methods: {
+    init () {
+      this.axios.get('/products', {
+        params: {
+          categoryId: 100012,
+          pageSize: 8
+        }
+      }).then(({ list }) => {
+        this.phoneList = [list.slice(0, 4), list.slice(4, 8)]
+      })
     }
   }
 }
@@ -195,7 +233,7 @@ export default {
             line-height: 50px;
             a{
               font-size:16px;
-              color: #666;
+              color: #ddd;
               padding-left: 30px;
               display: block;
               position: relative;
@@ -268,6 +306,88 @@ export default {
     }
     .banner{
       margin-bottom:50px;
+    }
+    .product-box{
+      background-color: $fontF;
+      padding: 30px 0 50px;
+      h2{
+        font-size: $fontF;
+        height: 21px;
+        line-height: 21px;
+        color: $colorB;
+        margin-bottom: 20px;
+      }
+      .wrapper{
+        display: flex;
+        .banner-left{
+          margin-right: 16px;
+          img{
+            width: 224px;
+            height: 619px;
+          }
+        }
+        .list-box{
+          .list{
+            @include flex();
+            width: 986px;
+            margin-bottom: 14px;
+            &:last-child{
+              margin-bottom: 0;
+            }
+            .item{
+              width: 236px;
+              height: 302px;
+              background-color: $colorG;
+              text-align: center;
+              span{
+                // 是否为新品
+                display: inline-block;
+                width: 67px;
+                height: 24px;
+                font-size: 14px;
+                line-height: 24px;
+                color: $colorG;
+                &.new-pro{
+                  background-color: #7ecf68;
+                }
+                &.kill-pro{
+                  background-color: #e82626;
+                }
+              }
+              .item-img{
+                img{
+                  height: 195px;
+                }
+              }
+              .item-info{
+                h3{
+                  font-size: $fontJ;
+                  color: $colorB;
+                  line-height: $fontJ;
+                  font-weight: bold;
+                }
+                p{
+                  color: $colorD;
+                  line-height: 13px;
+                  margin: 6px auto 13px;
+                }
+                .price{
+                  color: #f20a0a;
+                  font-size: $fontJ;
+                  font-weight: bold;
+                  cursor: pointer;
+                  &:after{
+                    @include bgImg(22px,22px,'/imgs/icon-cart-hover.png');
+                    content:' ';
+                    margin-left:5px;
+                    vertical-align: middle;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 </style>
