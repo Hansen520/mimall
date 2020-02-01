@@ -71,8 +71,9 @@
         </a>
       </div>
     </div>
-      <div class="product-box">
-        <div class="container">
+    <div class="product">
+      <div class="container">
+        <div class="product-box">
           <h2>手机</h2>
           <div class="wrapper">
             <div class="banner-left">
@@ -95,7 +96,48 @@
             </div>
           </div>
         </div>
+        <div class="banner">
+          <a href="/#/product/30">
+          <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/731d72805fb720532079afd58645f6b9.jpg?thumb=1&w=1533&h=150&f=webp&q=90" alt=""></a>
+        </div>
+        <div class="mispee-box">
+          <h2>小米闪购</h2>
+          <div class="flashsale">
+            <div class="countdown">
+              <h3>14:00 &nbsp;场</h3>
+              <img src="data:img/jpg;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAA1CAYAAAAklDnhAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ%0AbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp%0Abj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6%0AeD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1%0AMTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJo%0AdHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlw%0AdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAv%0AIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RS%0AZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpD%0AcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5j%0AZUlEPSJ4bXAuaWlkOjY4Q0ZFMkY5MTJFNzExRThCMkM4OEM1RTNBNjczQUVBIiB4bXBNTTpEb2N1%0AbWVudElEPSJ4bXAuZGlkOjY4Q0ZFMkZBMTJFNzExRThCMkM4OEM1RTNBNjczQUVBIj4gPHhtcE1N%0AOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NjhDRkUyRjcxMkU3MTFFOEIy%0AQzg4QzVFM0E2NzNBRUEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NjhDRkUyRjgxMkU3MTFF%0AOEIyQzg4QzVFM0E2NzNBRUEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94Onht%0AcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5oEyacAAACoklEQVR42sSYv0tbURTHX0LqD6T4g4pE%0AcHDoUOloBxVd/QFFEcQqWtrSKlKFmmAslopohzgIbv4FwUEE0clFujiIi+BSIbRQ0ooKRReRULHf%0AS48Qgu++c3/FAx+iyU3eJzf3nnPuC/1qavQ04zVY8szjCHRGNN9cBD6DSkOJKzAGzsOaH/AW1FuY%0AjRg4EH/oiJSCTxYk1sDK7T86Iu9BraHED/Au9wlVkYdg2lAiC/rBhYnIB/DIUOQj2M9/UkWkCsQN%0AJbbA8l0vqIhMgXIDiZ/gFbgxEakBEwYSf8Eg+OM3gCsyA8oMRETy25UN4IjUgVEDiW2wGDSIIzIL%0AijUljsFLv3WhIvKYFphOXNO6OOUMDhKZA7qFcQF85Q6WXeQpeKEpcULlvY8xthp8iwR8I93qLLb7%0AKnOsSPWNfhd6Bro99yHqTi9IhyWzEXIsIXbSG7Djt1jbQHsBZkMkyZRs13wpgIRoiJKy7dsBWh1L%0AbN5Vt3JFQrQ2XMYeGKBk5yvSI7aRQ4k0eA4uZZlVPM47lDgTZxd6lKb4AcqkLuKSZiIdVGsiVFNc%0AxDV9yT1Orekjoe+MDw4pHqwmaJewit66Ql0QaX+DOTaZe4DitAFZxQaaEynKnJ6KCDeaQAtj3A7V%0AkBtXIpwT3iFV06zqquaKPKEtKIsM6Mo/StoWiQeMvSCJjO4+54hEwTCjuTk0STgckUm6QxTY3LgU%0AKc+/jyFrblyKCIkKbnPjSkT8HDGV5saVyBAtVHZz40Ik7HNTRtrcuBARF2tQbW5ciCR0mhvbIs2E%0AcnNjWySh29zYFGnIK25KzY1Nkdziptzc2BKJUu7Qbm5sicQom2o3NzZEKqiu/DZpbmyIjIAHNBMZ%0A7x4iTALjhcgVQSIl3v87w5vePcY/AQYAFYR6skFSqBUAAAAASUVORK5CYII=" alt="">
+              <div class="desc">距离结束还有</div>
+              <div class="countdowntime">
+                <span>00</span>
+                <i>:</i>
+                <span>00</span>
+                <i>:</i>
+                <span>00</span>
+              </div>
+            </div>
+            <div class="flashsale-list">
+              <swiper :options="swiperOption">
+                <swiper-slide v-for="(arr, i) in phoneFlash" :key="i">
+                  <div class="list">
+                    <div class="item" v-for="(item, j) in arr" :key="j">
+                      <div class="item-img">
+                        <img :src="item.img" alt="">
+                      </div>
+                      <div class="item-info">
+                        <h3>{{item.name}}</h3>
+                        <p>{{item.subtitle}}</p>
+                        <p class="price">{{item.price}}元起</p>
+                      </div>
+                    </div>
+                  </div>
+                </swiper-slide>
+
+              </swiper>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
     <suervice-bar></suervice-bar>
   </div>
 </template>
@@ -192,7 +234,58 @@ export default {
           img: '/imgs/ads/ads-4.jpg'
         }
       ],
-      phoneList: []
+      phoneList: [],
+      phoneFlash: [
+        [{
+          id: '01',
+          img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/02642411cee83d90c46c9503c3003a3e.jpg',
+          name: '王牌手机',
+          subtitle: '你的品质选择',
+          price: '1200.00'
+        }, {
+          id: '02',
+          img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/e7ec801fd82c2e2f2728cdc1dd5098ee.jpg',
+          name: '小米手机',
+          subtitle: '你的品质选择',
+          price: '2200.00'
+        }, {
+          id: '03',
+          img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/02642411cee83d90c46c9503c3003a3e.jpg',
+          name: 'vivo手机',
+          subtitle: '你的品质选择',
+          price: '1340.00'
+        }, {
+          id: '04',
+          img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/e7ec801fd82c2e2f2728cdc1dd5098ee.jpg',
+          name: '傻瓜手机',
+          subtitle: '你的品质选择',
+          price: '1500.50'
+        }], [{
+          id: '05',
+          img: 'https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/5ef62eeb7a0709f80170973680994267.png',
+          name: '苹果手机',
+          subtitle: '你的品质选择',
+          price: '1900.00'
+        }, {
+          id: '06',
+          img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/e7ec801fd82c2e2f2728cdc1dd5098ee.jpg',
+          name: '华为手机',
+          subtitle: '你的品质选择',
+          price: '2200.00'
+        }, {
+          id: '07',
+          img: 'https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/5ef62eeb7a0709f80170973680994267.png',
+          name: '摩托罗拉手机',
+          subtitle: '你的品质选择',
+          price: '1100.00'
+        }, {
+          id: '08',
+          img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/e7ec801fd82c2e2f2728cdc1dd5098ee.jpg',
+          name: '魅族手机',
+          subtitle: '你的品质选择',
+          price: '1000.00'
+        }]
+      ]
     }
   },
   mounted () {
@@ -298,89 +391,187 @@ export default {
     .ads-box{
       @include flex();
       margin-top: 14px;
-      margin-bottom: 32px;
       a{
         width: 296px;
         height: 167px;
       }
     }
-    .banner{
-      margin-bottom:50px;
-    }
-    .product-box{
-      background-color: $fontF;
-      padding: 30px 0 50px;
-      h2{
-        font-size: $fontF;
-        height: 21px;
-        line-height: 21px;
-        color: $colorB;
-        margin-bottom: 20px;
-      }
-      .wrapper{
-        display: flex;
-        .banner-left{
-          margin-right: 16px;
-          img{
-            width: 224px;
-            height: 619px;
+    .product{
+      background-color: $colorJ;
+      padding: 30px 0 70px;
+      margin-bottom: 50px;
+      box-sizing: border-box;
+      .product-box{
+        h2{
+          font-size: $fontF;
+          height: 21px;
+          line-height: 21px;
+          color: $colorB;
+          margin-bottom: 20px;
+        }
+        .wrapper{
+          display: flex;
+          .banner-left{
+            margin-right: 16px;
+            img{
+              width: 224px;
+              height: 619px;
+            }
+          }
+          .list-box{
+            .list{
+              @include flex();
+              width: 986px;
+              margin-bottom: 14px;
+              &:last-child{
+                margin-bottom: 0;
+              }
+              .item{
+                width: 236px;
+                height: 302px;
+                background-color: $colorG;
+                text-align: center;
+                span{
+                  // 是否为新品
+                  display: inline-block;
+                  width: 67px;
+                  height: 24px;
+                  font-size: 14px;
+                  line-height: 24px;
+                  color: $colorG;
+                  &.new-pro{
+                    background-color: #7ecf68;
+                  }
+                  &.kill-pro{
+                    background-color: #e82626;
+                  }
+                }
+                .item-img{
+                  img{
+                    height: 195px;
+                  }
+                }
+                .item-info{
+                  h3{
+                    font-size: $fontJ;
+                    color: $colorB;
+                    line-height: $fontJ;
+                    font-weight: bold;
+                  }
+                  p{
+                    color: $colorD;
+                    line-height: 13px;
+                    margin: 6px auto 13px;
+                  }
+                  .price{
+                    color: #f20a0a;
+                    font-size: $fontJ;
+                    font-weight: bold;
+                    cursor: pointer;
+                    &:after{
+                      @include bgImg(22px,22px,'/imgs/icon-cart-hover.png');
+                      content:' ';
+                      margin-left:5px;
+                      vertical-align: middle;
+                    }
+                  }
+                }
+              }
+            }
           }
         }
-        .list-box{
-          .list{
-            @include flex();
-            width: 986px;
-            margin-bottom: 14px;
-            &:last-child{
-              margin-bottom: 0;
-            }
-            .item{
-              width: 236px;
-              height: 302px;
-              background-color: $colorG;
+      }
+      .mispee-box{
+        margin-bottom: 50px;
+        h2{
+          font-size: $fontF;
+          height: 21px;
+          line-height: 21px;
+          color: $colorB;
+          margin-bottom: 20px;
+        }
+        .flashsale{
+          display: flex;
+          .countdown{
+            width: 234px;
+            height: 300px;
+            box-sizing: border-box;
+            background-color: #f1eded;
+            margin-right: 16px;
+            h3{
+              font-size:26px;
+              font-weight: 300;
+              color:#e82626;
               text-align: center;
+              padding-top: 30px;
+            }
+            img{
+              margin: 20px auto;
+              vertical-align: middle;
+              margin-left: -17px;
+              position: relative;
+              left: 50%;
+            }
+            .desc{
+              text-align: center;
+              font-size: 16px;
+              color: #999;
+              margin-top: 10px;
+            }
+            .countdowntime{
+              text-align: center;
+              margin-top: 40px;
               span{
-                // 是否为新品
                 display: inline-block;
-                width: 67px;
-                height: 24px;
-                font-size: 14px;
-                line-height: 24px;
-                color: $colorG;
-                &.new-pro{
-                  background-color: #7ecf68;
-                }
-                &.kill-pro{
-                  background-color: #e82626;
-                }
+                width: 45px;
+                height: 45px;
+                color: #fff;
+                font-size: 28px;
+                line-height: 45px;
+                background-color: rgb(68, 59, 59);
               }
-              .item-img{
-                img{
-                  height: 195px;
-                }
+              i{
+                display: inline-block;
+                color: #000;
+                margin:0 5px;
+                font-size: 28px;
+                font-style: normal;
               }
-              .item-info{
-                h3{
-                  font-size: $fontJ;
-                  color: $colorB;
-                  line-height: $fontJ;
-                  font-weight: bold;
+            }
+          }
+          .flashsale-list{
+            width: 986px;
+            .list{
+              @include flex();
+              .item{
+                width: 236px;
+                height: 300px;
+                background-color: #fff;
+                margin-left: 10px;
+                overflow: hidden;
+                .item-img{
+                  margin-top: 20px;
+                  text-align: center;
+                  img{
+                    width: 120px;
+                    height: 120px;
+                  }
                 }
-                p{
-                  color: $colorD;
-                  line-height: 13px;
-                  margin: 6px auto 13px;
-                }
-                .price{
-                  color: #f20a0a;
-                  font-size: $fontJ;
-                  font-weight: bold;
-                  cursor: pointer;
-                  &:after{
-                    @include bgImg(22px,22px,'/imgs/icon-cart-hover.png');
-                    content:' ';
-                    margin-left:5px;
-                    vertical-align: middle;
+                .item-info{
+                  h3{
+                    text-align: center;
+                    margin-top: 40px;
+                  }
+                  p{
+                    text-align: center;
+
+                    color:#999;
+                    font-size: 12px;
+                    &:last-child{
+                      color:#f20a0a;
+                      font-size: 16px;
+                      margin: 20px auto 20px;
+                    }
                   }
                 }
               }
