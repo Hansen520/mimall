@@ -2,6 +2,7 @@ import Vue from 'vue'
 import router from './router'
 import axios from 'axios'
 import vueAxios from 'vue-axios'
+import VueLazyLoad from 'vue-lazyload'
 import App from './App.vue'
 // import env from './env'
 
@@ -29,6 +30,9 @@ axios.interceptors.response.use(function (response) {
 
 // 将axios挂载到vueAxios上面
 Vue.use(vueAxios, axios)
+Vue.use(VueLazyLoad, {
+  loading: '/imgs/loading-svg/loading-cubes.svg'
+})
 Vue.config.productionTip = false
 
 new Vue({
