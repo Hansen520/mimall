@@ -89,7 +89,7 @@
                   <div class="item-info">
                     <h3>{{item.name}}</h3>
                     <p>{{item.subtitle}}</p>
-                    <p class="price">{{item.price}}元起</p>
+                    <p class="price" v-on:click="addCart()">{{item.price}}元起</p>
                   </div>
                 </div>
               </div>
@@ -126,12 +126,11 @@
                       <div class="item-info">
                         <h3>{{item.name}}</h3>
                         <p>{{item.subtitle}}</p>
-                        <p class="price">{{item.price}}元起</p>
+                        <p class="price" @click="addCart()">{{item.price}}元起</p>
                       </div>
                     </div>
                   </div>
                 </swiper-slide>
-
               </swiper>
             </div>
           </div>
@@ -139,6 +138,23 @@
       </div>
     </div>
     <suervice-bar></suervice-bar>
+    <!-- 如果需要传变量就要用v-bind -->
+    <!-- 如果是静态文字直接在后面写文字就好了 -->
+    <!-- 像title，sureText等等都是子组件那边定义好的属性 -->
+    <modal
+      title="提示"
+      sureText="查看购物车"
+      btnType="1"
+      modalType="middle"
+      :showModal="showModal"
+      v-on:submit="goToCart"
+      v-on:cancel="showModal=false"
+    >
+    <!-- 往插槽里面填写内容必须是在组件标签之间 -->
+    <template v-slot:body>
+      <p>添加商品成功了!</p>
+    </template>
+    </modal>
   </div>
 </template>
 
@@ -148,13 +164,16 @@ import SuerviceBar from './../components/ServiceBar'
 // require styles
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import Modal from './../components/Modal'
+
 export default {
   // name这个名字可以随意定义，与本文件名没有任何关系，其他页面的也是一样道理，但是为了好记，我们就定义成index
   name: 'index',
   components: {
     SuerviceBar,
     swiper,
-    swiperSlide
+    swiperSlide,
+    Modal
   },
   data () {
     return {
@@ -285,7 +304,8 @@ export default {
           subtitle: '你的品质选择',
           price: '1000.00'
         }]
-      ]
+      ],
+      showModal: false
     }
   },
   mounted () {
@@ -301,6 +321,12 @@ export default {
       }).then(({ list }) => {
         this.phoneList = [list.slice(0, 4), list.slice(4, 8)]
       })
+    },
+    addCart () {
+      this.showModal = true
+    },
+    goToCart () {
+      this.$router.push('/cart')
     }
   }
 }
