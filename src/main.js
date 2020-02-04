@@ -17,15 +17,20 @@ axios.defaults.timeout = 8000
 // 如果要用这种方式，就要通过改env下面的mock地址来实现
 // axios.defaults.baseURL = env.baseURL
 // 返回数据时候拦截器
+
 axios.interceptors.response.use(function (response) {
+  const path = location.hash
   const res = response.data
   // 商定 状态码0是成功，10是未登入跳到登入页面
   if (res.status === 0) {
     return res.data
-  } else if (status === 10) {
-    window.location.href = '/#/login'
+  } else if (res.status === 10) {
+    if (path !== '#/index') {
+      window.location.href = '#/login'
+    }
   } else {
     alert(res.msg)
+    // 为了防止没有登入也会跳到首页
     return Promise.reject(res.msg)
   }
 })

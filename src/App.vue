@@ -13,6 +13,26 @@ export default {
   data () {
     return {
     }
+  },
+  mounted () {
+    this.getUser()
+    this.getCartCount()
+  },
+  methods: {
+    getUser () {
+      this.axios.get('/user').then((res) => {
+        // console.log(res)
+        // todo vuex
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    getCartCount () {
+      this.axios.get('/carts/products/sum').then((res) => {
+        // console.log(res)
+        // todo vuex
+      })
+    }
   }
 }
 </script>
