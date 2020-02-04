@@ -9,8 +9,7 @@
           <a href="javascript:;">协议规划</a>
         </div>
         <div class="topbar-user">
-          <a href="javascript:;">登入</a>
-          <a href="javascript:;">注册</a>
+          <a href="javascript:;" @click="login">登入</a>
           <a href="javascript:;" class="my-cart"><span class="icon-cart"></span>购物车</a>
         </div>
       </div>
@@ -137,6 +136,9 @@ export default {
       this.axios.get('/products').then(({ list }) => {
         this.phoneList = list.slice(0, 6)
       })
+    },
+    login () {
+      this.$router.push('/login')
     }
   }
 }
@@ -158,7 +160,6 @@ export default {
         a{
           display: inline-block;
           color:#b0b0b0;
-          margin-right: 17px;
         }
         .my-cart{
           width: 110px;
@@ -169,6 +170,9 @@ export default {
             display: inline-block;
             @include bgImg(16px,12px,'/imgs/icon-cart-checked.png');
           }
+        &:last-child{
+          margin-left: 17px;
+        }
         }
       }
     }

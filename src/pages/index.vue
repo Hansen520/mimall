@@ -121,7 +121,7 @@
                   <div class="list">
                     <div class="item" v-for="(item, j) in arr" :key="j">
                       <div class="item-img">
-                        <img v-lazy="item.img" alt="">
+                        <img :src="item.img" alt="">
                       </div>
                       <div class="item-info">
                         <h3>{{item.name}}</h3>
@@ -590,7 +590,6 @@ export default {
                   }
                   p{
                     text-align: center;
-
                     color:#999;
                     font-size: 12px;
                     &:last-child{

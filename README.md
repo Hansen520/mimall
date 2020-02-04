@@ -59,6 +59,7 @@ export default new Router({
     }]
 ```
 像上面一样，home为主路由，而children里面为分路由。在主路由里面的vue页面上写上```<router-view>```标签，就可以将子路由的内容页面插入到里面。
+记住一定要先在main.js里面注册才能用哦
 
 ### storage
 这个主要设置localsession的封装的，用于会话处理机制的
@@ -109,3 +110,29 @@ package.json
 优先选择easy-mock，因为这个和我们请求数据xml最接近
 其次选择mock集成，就是安装mock.js
 最后再考虑本地json数据的方式
+
+### 组件1：modal组件 
+这是一个弹框组件，把弹框的内容覆盖在遮罩层上
+
+### 组件2： vue-awesome-swiper组件
+这是一个轮播图的组件，覆盖了市场上绝大轮播图的功能非常好用
+[文字链接](https://www.swiper.com.cn/)
+
+### 组件3 ： 图片懒加载vue-lazyload
+现在main.js注册vue-lazyload，如下所示
+```
+Vue.use(VueLazyLoad, {
+  loading: '/imgs/loading-svg/loading-cubes.svg'
+})
+```
+其中loading就在在还没有加载的时候出现svg图片，这个图片都是编码而成的
+然后在index.vue页面里面用v-lazy代替src就可以了。
+[文字链接](https://www.npmjs.com/package/vue-lazyload)
+
+### 组件4： vue-cookies
+这个是通过设置cookies传给后台，作为你的登入的唯一标题
+[文字链接](https://www.npmjs.com/package/vue-cookies)
+
+### emit与props
+emit是子组件传递给父组件，props是父组件传给子组件的
+

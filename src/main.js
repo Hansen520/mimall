@@ -3,6 +3,7 @@ import router from './router'
 import axios from 'axios'
 import vueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
+import VueCookie from 'vue-cookie'
 import App from './App.vue'
 // import env from './env'
 
@@ -24,15 +25,19 @@ axios.interceptors.response.use(function (response) {
   } else if (status === 10) {
     window.location.href = '/#/login'
   } else {
-    console.log(res.msg)
+    alert(res.msg)
+    return Promise.reject(res.msg)
   }
 })
 
 // 将axios挂载到vueAxios上面
 Vue.use(vueAxios, axios)
+// 懒加载
 Vue.use(VueLazyLoad, {
   loading: '/imgs/loading-svg/loading-cubes.svg'
 })
+// VueCookie
+Vue.use(VueCookie)
 Vue.config.productionTip = false
 
 new Vue({

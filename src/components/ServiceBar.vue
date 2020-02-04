@@ -22,7 +22,7 @@ export default {
 <style lang="scss">
   @import './../assets/scss/mixin.scss';
   .service{
-    padding: 33px 0;
+    padding: 18px 0;
     color: #666;
     font-size: 16px;
     .service-detail{
