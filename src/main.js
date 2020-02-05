@@ -5,6 +5,7 @@ import vueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
 import App from './App.vue'
+import store from './store'
 // import env from './env'
 
 // 根据前端的跨域方式做调整 并在每个接口前加上/api,最后通过代理方式删除/api，这里作为真实对接地址，是后台开发完成的
@@ -43,9 +44,13 @@ Vue.use(VueLazyLoad, {
 })
 // VueCookie
 Vue.use(VueCookie)
+
 Vue.config.productionTip = false
 
 new Vue({
+  // 自己构造好的路由，并且在这里注册
   router,
+  // 自己构建的Vuex插件，用于父子组件的数据共享
+  store,
   render: h => h(App)
 }).$mount('#app')
