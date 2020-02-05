@@ -9,8 +9,10 @@
           <a href="javascript:;">协议规划</a>
         </div>
         <div class="topbar-user">
-          <a href="javascript:;" @click="login">登入</a>
-          <a href="javascript:;" class="my-cart"><span class="icon-cart"></span>购物车</a>
+          <a href="javascript:;" v-if="username">{{username}}</a>
+          <a href="javascript:;" v-if="username">我的订单</a>
+          <a href="javascript:;"  v-if="!username" @click="login">登入</a>
+          <a href="javascript:;" class="my-cart"><span class="icon-cart"></span>购物车({{cartCount}})</a>
         </div>
       </div>
     </div>
@@ -118,7 +120,6 @@ export default {
   name: 'nav-header',
   data () {
     return {
-      username: '',
       phoneList: []
     }
   },
@@ -130,6 +131,16 @@ export default {
   },
   mounted () {
     this.getProductList()
+  },
+  computed: {
+    // 用计算属性返回来自vuex里的数据，防止数据加载延迟的情况
+    // 而且下面不用在data定义
+    username () {
+      return this.$store.state.username
+    },
+    cartCount () {
+      return this.$store.state.cartCount
+    }
   },
   methods: {
     getProductList () {

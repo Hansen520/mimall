@@ -21,16 +21,16 @@ export default {
   methods: {
     getUser () {
       this.axios.get('/user').then((res) => {
-        // console.log(res)
-        // todo vuex
+        // 向Actions派发数据，参数一名字自定义，参数二为派发的数据
+        this.$store.dispatch('saveUserName', res.username)
       }).catch((err) => {
         console.log(err)
       })
     },
     getCartCount () {
       this.axios.get('/carts/products/sum').then((res) => {
-        // console.log(res)
         // todo vuex
+        // this.$store.dispatch('saveCartCount', res)
       })
     }
   }

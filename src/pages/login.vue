@@ -55,6 +55,8 @@ export default {
       }).then((res) => {
         // 往userId里面传入res.id,然后cookies的有效期为1个月
         this.$cookie.set('userId', res.id, { expires: '1M' })
+        // 向Actions派发数据，参数一名字自定义，参数二为派发的数据
+        this.$store.dispatch('saveUserName', res.username)
         this.$router.push('/index')
       })
     },
