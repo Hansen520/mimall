@@ -1,17 +1,19 @@
 <template>
-  <div class="nav-bar" :class="{ 'fixed': isFixed }">
-    <div class="container">
-      <div class="pro-title">
-        小米9
-      </div>
-      <div class="pro-param">
-        <a href="javascript:;">概述</a><span>|</span>
-        <a href="javascript:;">参数</a><span>|</span>
-        <a href="javascript:;">用户评价</a>
-        <slot name="buy"></slot>
+  <transition name="srollslide">
+    <div class="nav-bar" :class="{ 'fixed': isFixed }" ref="outHeight">
+      <div class="container">
+        <div class="pro-title">
+          小米9
+        </div>
+        <div class="pro-param">
+          <a href="javascript:;">概述</a><span>|</span>
+          <a href="javascript:;">参数</a><span>|</span>
+          <a href="javascript:;">用户评价</a>
+          <slot name="buy"></slot>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -30,7 +32,6 @@ export default {
     initScroll () {
       // 卷起高度
       const sightScroll = document.body.scrollTop || document.documentElement.scrollTop
-      console.log(sightScroll)
       if (sightScroll > 152) {
         this.isFixed = true
       } else {
@@ -53,12 +54,14 @@ export default {
   .nav-bar{
     height: 70px;
     line-height: 70px;
-    border-top: 1px solid $colorH;
+    width: 100%;
+    border: 1px solid $colorH;
+    box-shadow: 0 5px 5px rgba(0,0,0,.07);
+    transition: all 1.5s;
+    background: #fff;
     &.fixed{
       position: fixed;
-      width: 100%;
       top: 0;
-      box-shadow: 0 0 3px 3px #e6e6e6;
     }
     .container{
       @include flex();
