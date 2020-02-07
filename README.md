@@ -117,6 +117,26 @@ package.json
 ### 组件2： vue-awesome-swiper组件
 这是一个轮播图的组件，覆盖了市场上绝大轮播图的功能非常好用
 [文字链接](https://www.swiper.com.cn/)
+```
+      // 基本设置下面就行了
+      swiperOption1: {
+        autoplay: true,
+        speed: 800,
+        // 是否图片连接播放，如果不连接则直接跳到第一张
+        // loop: false,
+        // slidesPerView: 3,//三个并排显示
+        touchAngle: 10,
+        keyboard: true,
+        pagination: {
+          el: '.swiper-pagination',
+          type: 'bullets',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+```
 
 ### 组件3 ： 图片懒加载vue-lazyload
 现在main.js注册vue-lazyload，如下所示
@@ -136,3 +156,44 @@ Vue.use(VueLazyLoad, {
 ### emit与props
 emit是子组件传递给父组件，props是父组件传给子组件的
 
+## 产品模块出现的组件
+### 组件吸顶的实现
+这个主要通过监听模式，然后配合sroll事件和几个高度配合使用而成的，而且单独分离出来写的组件，
+而且逻辑样式也是写在这个组件里面
+
+### 视频组件
+当点击时候出现视频组件，这里主要是出现视频的两种动画
+第一种 利用原生的transition， 具体看prooduct.copy  
+第二种 利用自定义animate去实现动画  
+这种动画单独写会出现很多问题，第二种关键代码如下
+```
+<div class="item-video">
+  <h2>60帧超慢动作摄影<br/>慢慢回味每一瞬间的精彩</h2>
+  <p>后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！<br/>更能AI 精准分析视频内容，15个场景智能匹配背景音效。</p>
+  <div class="video-bg" @click="showVideo='slideDown'"></div>
+  <!-- v-show == ''相当于flase相当于display=none -->
+  <!-- 这里相当于动画时间结束后为''就行 ，但是不能手动去设置true和false-->
+  <div class="video-box" v-show="showVideo">
+    <div class="overlay"></div>
+    <div class="video" :class="showVideo">
+      <span class="icon-close" @click="closeVideo"></span>
+      <video src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
+    </div>
+  </div>
+</div>
+
+buy () {
+      const id = this.$route.params.id
+      this.$route.push(`/detail/${id}`)
+    },
+    closeVideo () {
+      this.showVideo = 'slideUp'
+      setTimeout(() => {
+        this.showVideo = ''
+      }, 600)
+    }
+```
+为什么要这么做：因为在做的时候出现当console查看时候，视频会跳出来，具体代码参照product
+
+#### 出现的一个bug
+就是没右登入时候，用户名为underfind，所以我们在函数定义时候给res一个默认值就行

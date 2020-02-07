@@ -3,7 +3,7 @@
     <div class="nav-bar" :class="{ 'fixed': isFixed }" ref="outHeight">
       <div class="container">
         <div class="pro-title">
-          小米9
+          {{title}}
         </div>
         <div class="pro-param">
           <a href="javascript:;">概述</a><span>|</span>
@@ -19,6 +19,11 @@
 <script>
 export default {
   name: 'nav-bar',
+  props: {
+    title: {
+      type: String
+    }
+  },
   data () {
     return {
       // 用于判断是否出现class样式

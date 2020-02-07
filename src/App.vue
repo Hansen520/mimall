@@ -20,7 +20,8 @@ export default {
   },
   methods: {
     getUser () {
-      this.axios.get('/user').then((res) => {
+      // 都给一个默认值以免未登入时，数据为空
+      this.axios.get('/user').then((res = {}) => {
         // 向Actions派发数据，参数一名字自定义，参数二为派发的数据
         this.$store.dispatch('saveUserName', res.username)
       }).catch((err) => {
@@ -28,7 +29,7 @@ export default {
       })
     },
     getCartCount () {
-      this.axios.get('/carts/products/sum').then((res) => {
+      this.axios.get('/carts/products/sum').then((res = 0) => {
         // todo vuex
         // this.$store.dispatch('saveCartCount', res)
       })

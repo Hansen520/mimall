@@ -50,7 +50,7 @@
             </li>
           </ul>
         </div>
-        <swiper :options="swiperOption">
+        <swiper :options="swiperOption1">
           <swiper-slide v-for="item of slideList" :key="item.id">
             <a :href="`/#/product/${item.id}`"><img v-bind:src="item.img"></a>
           </swiper-slide>
@@ -116,7 +116,7 @@
               </div>
             </div>
             <div class="flashsale-list">
-              <swiper :options="swiperOption">
+              <swiper :options="swiperOption2">
                 <swiper-slide v-for="(arr, i) in phoneFlash" :key="i">
                   <div class="list">
                     <div class="item" v-for="(item, j) in arr" :key="j">
@@ -177,10 +177,13 @@ export default {
   },
   data () {
     return {
-      swiperOption: {
+      // banner轮播图
+      swiperOption1: {
         autoplay: true,
         speed: 800,
-        loop: true,
+        // 是否图片连接播放，如果不连接则直接跳到第一张
+        // loop: false,
+        // slidesPerView: 3,//三个并排显示
         touchAngle: 10,
         keyboard: true,
         pagination: {
@@ -192,6 +195,18 @@ export default {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev'
         }
+
+      },
+      // 闪购轮播图
+      swiperOption2: {
+        autoplay: true,
+        speed: 800,
+        slidesPerView: 4,
+        // 是否图片连接播放，如果不连接则直接跳到第一张
+        loop: false,
+        // slidesPerView: 3,//三个并排显示
+        touchAngle: 10,
+        keyboard: true
 
       },
       slideList: [
@@ -261,19 +276,19 @@ export default {
           name: '王牌手机',
           subtitle: '你的品质选择',
           price: '1200.00'
-        }, {
+        }], [{
           id: '02',
           img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/e7ec801fd82c2e2f2728cdc1dd5098ee.jpg',
           name: '小米手机',
           subtitle: '你的品质选择',
           price: '2200.00'
-        }, {
+        }], [{
           id: '03',
           img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/02642411cee83d90c46c9503c3003a3e.jpg',
           name: 'vivo手机',
           subtitle: '你的品质选择',
           price: '1340.00'
-        }, {
+        }], [{
           id: '04',
           img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/e7ec801fd82c2e2f2728cdc1dd5098ee.jpg',
           name: '傻瓜手机',
@@ -285,19 +300,19 @@ export default {
           name: '苹果手机',
           subtitle: '你的品质选择',
           price: '1900.00'
-        }, {
+        }], [{
           id: '06',
           img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/e7ec801fd82c2e2f2728cdc1dd5098ee.jpg',
           name: '华为手机',
           subtitle: '你的品质选择',
           price: '2200.00'
-        }, {
+        }], [{
           id: '07',
           img: 'https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/5ef62eeb7a0709f80170973680994267.png',
           name: '摩托罗拉手机',
           subtitle: '你的品质选择',
           price: '1100.00'
-        }, {
+        }], [{
           id: '08',
           img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/e7ec801fd82c2e2f2728cdc1dd5098ee.jpg',
           name: '魅族手机',

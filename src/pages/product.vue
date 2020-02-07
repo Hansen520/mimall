@@ -1,14 +1,14 @@
 <template>
   <div class="product">
-    <product-param>
+    <product-param :title="product.name">
       <template v-slot:buy>
-        <button class="btn">立即购买</button>
+        <button class="btn" v-on:click="buy">立即购买</button>
       </template>
     </product-param>
     <div class="content">
       <div class="item-bg">
-        <h2>小米8</h2>
-        <h3>8周年旗舰版</h3>
+        <h2>{{product.name}}</h2>
+        <h3>{{product.subtitle}}</h3>
         <p>
           <a href="" id="">全球首款双频 GP</a><span>|</span>
           <a href="" id="">骁龙845</a><span>|</span>
@@ -16,7 +16,7 @@
           <a href="" id="">红外人脸识别</a>
         </p>
         <div class="price">
-          <span>￥<em>2599</em></span>
+          <span>￥<em>{{product.price}}</em></span>
         </div>
       </div>
       <div class="item-bg-2"></div>
@@ -37,10 +37,12 @@
         <h2>60帧超慢动作摄影<br/>慢慢回味每一瞬间的精彩</h2>
         <p>后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！<br/>更能AI 精准分析视频内容，15个场景智能匹配背景音效。</p>
         <div class="video-bg" @click="showVideo='slideDown'"></div>
-        <div class="video-box">
-          <div class="overlay" v-if="showVideo === 'slideDown' ? true : false"></div>
+        <!-- v-show == ''相当于flase相当于display=none -->
+        <!-- 这里相当于动画时间结束后为''就行 ，但是不能手动去设置true和false-->
+        <div class="video-box" v-show="showVideo">
+          <div class="overlay"></div>
           <div class="video" :class="showVideo">
-            <span class="icon-close" @click="showVideo='slideUp'"></span>
+            <span class="icon-close" @click="closeVideo"></span>
             <video src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
           </div>
         </div>
@@ -61,9 +63,13 @@ export default {
   },
   data () {
     return {
+      // 控制动画
       showVideo: '',
+      // 定义产品
+      product: '',
       swiperOption: {
         autoplay: true,
+        // 一版几个
         slidesPerView: 3,
         spaceBetween: 30,
         freeMode: true,
@@ -72,6 +78,30 @@ export default {
           clickable: true
         }
       }
+    }
+  },
+  mounted () {
+    this.getProductInfo()
+  },
+  methods: {
+    getProductInfo () {
+      // 获取路由id
+      const id = this.$route.params.id
+      console.log(id)
+      this.axios.get(`/products/${id}`).then((res) => {
+        console.log(res)
+        this.product = res
+      })
+    },
+    buy () {
+      const id = this.$route.params.id
+      this.$route.push(`/detail/${id}`)
+    },
+    closeVideo () {
+      this.showVideo = 'slideUp'
+      setTimeout(() => {
+        this.showVideo = ''
+      }, 600)
     }
   }
 }
