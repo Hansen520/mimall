@@ -336,6 +336,7 @@ export default {
 <style lang="scss">
   @import './../assets/scss/config.scss';
   @import './../assets/scss/mixin.scss';
+  @import './../assets/scss/base.scss';
   .index{
     .swiper-box{
       .nav-menu{
@@ -475,6 +476,7 @@ export default {
                 .item-img{
                   img{
                     height: 195px;
+                    width: 100%;
                   }
                 }
                 .item-info{
@@ -580,7 +582,6 @@ export default {
                   text-align: center;
                   img{
                     width: 120px;
-                    height: 120px;
                   }
                 }
                 .item-info{

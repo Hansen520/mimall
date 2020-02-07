@@ -36,11 +36,11 @@
       <div class="item-video">
         <h2>60帧超慢动作摄影<br/>慢慢回味每一瞬间的精彩</h2>
         <p>后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！<br/>更能AI 精准分析视频内容，15个场景智能匹配背景音效。</p>
-        <div class="video-bg" @click="showVideo='slideDown'"></div>
+        <div class="video-bg" @click="showVideo=true"></div>
         <div class="video-box">
-          <div class="overlay" v-if="showVideo === 'slideDown' ? true : false"></div>
-          <div class="video" :class="showVideo">
-            <span class="icon-close" @click="showVideo='slideUp'"></span>
+          <div class="overlay" v-if="showVideo"></div>
+          <div class="video" :class="{'isShowVideo': showVideo}">
+            <span class="icon-close" @click="showVideo=false"></span>
             <video src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
           </div>
         </div>
@@ -61,7 +61,7 @@ export default {
   },
   data () {
     return {
-      showVideo: '',
+      showVideo: false,
       swiperOption: {
         autoplay: true,
         slidesPerView: 3,
@@ -168,40 +168,6 @@ export default {
           opacity: .4;
           z-index: 10;
         }
-        // 这些动画只有先定义好了才能用
-        @keyframes slideDown {
-          0%{
-            top: -50%;
-            opacity: 0;
-          }
-          50%{
-            top: 25%;
-            left: 75%;
-            opacity: 0.5;
-          }
-          100%{
-            top: 50%;
-            left: 50%;
-            opacity: 1;
-          }
-        }
-        @keyframes slideUp {
-          0%{
-            top: 50%;
-            left: 50%;
-            opacity: 1;
-          }
-          50%{
-            top: 25%;
-            left: 25%;
-            opacity: 0.5;
-          }
-          100%{
-            top: -50%;
-            left: 50%;
-            opacity: 0;
-          }
-        }
         .video{
           position: fixed;
           top: -50%;
@@ -210,16 +176,11 @@ export default {
           z-index: 10;
           width: 1000px;
           height: 536px;
-          opacity: 1;
-          // 使用自定义动画
-          &.slideDown{
-            // 过度时间和速度
-            animation: slideDown .6s linear;
-            // 为了让动画移进来时的最后一帧固定
+          opacity: 0;
+          transition: all .6s;
+          &.isShowVideo{
             top: 50%;
-          }
-          &.slideUp {
-            animation: slideUp .6s linear;
+            opacity: 1;
           }
           .icon-close{
             @include positionImg(absolute, 20px, 20px, null, null, 20px, 20px, '/imgs/icon-close.png');
