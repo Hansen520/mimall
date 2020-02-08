@@ -29,6 +29,7 @@ axios.interceptors.response.use(function (response) {
     if (path !== '#/index') {
       window.location.href = '#/login'
     }
+    return Promise.reject(res.msg)
   } else {
     alert(res.msg)
     // 为了防止没有登入也会跳到首页

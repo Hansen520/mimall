@@ -144,7 +144,11 @@ export default {
   },
   methods: {
     getProductList () {
-      this.axios.get('/products').then(({ list }) => {
+      this.axios.get('/products', {
+        params: {
+          categoryId: '100012'
+        }
+      }).then(({ list }) => {
         this.phoneList = list.slice(0, 6)
       })
     },

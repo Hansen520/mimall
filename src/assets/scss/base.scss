@@ -10,7 +10,24 @@ a{
     height: 100%;
   }
 }
+img{
+  width: 100%;
+  height: 100%;
+}
 .banner{
   margin-top: 32px;
   margin-bottom: 50px;
+}
+.fl{
+  float: left;
+}
+.fr{
+  float: right;
+}
+.clearbox:before,.clearbox:after{
+  content: '';
+  display: table;
+}
+.clearbox:after{
+  clear: both;
 }

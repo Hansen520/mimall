@@ -89,7 +89,7 @@
                   <div class="item-info">
                     <h3>{{item.name}}</h3>
                     <p>{{item.subtitle}}</p>
-                    <p class="price" v-on:click="addCart()">{{item.price}}元起</p>
+                    <p class="price" v-on:click="addCart(item.id)">{{item.price}}元起</p>
                   </div>
                 </div>
               </div>
@@ -337,8 +337,15 @@ export default {
         this.phoneList = [list.slice(0, 4), list.slice(4, 8)]
       })
     },
-    addCart () {
-      this.showModal = true
+    addCart (id) {
+      this.axios.post('/carts', {
+        // 这里的id勇敢参数传递，也就是detail里面的this.$router.params.id
+        productId: id,
+        selected: true
+      }).then((res = 0) => {
+        this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
+        this.showModal = true
+      })
     },
     goToCart () {
       this.$router.push('/cart')
@@ -351,7 +358,6 @@ export default {
 <style lang="scss">
   @import './../assets/scss/config.scss';
   @import './../assets/scss/mixin.scss';
-  @import './../assets/scss/base.scss';
   .index{
     .swiper-box{
       .nav-menu{
@@ -554,6 +560,8 @@ export default {
               margin-left: -17px;
               position: relative;
               left: 50%;
+              width: 35px;
+              height: 53px;
             }
             .desc{
               text-align: center;

@@ -63,7 +63,8 @@ export default {
     border: 1px solid $colorH;
     box-shadow: 0 5px 5px rgba(0,0,0,.07);
     transition: all 1.5s;
-    background: #fff;
+    background-color: #fff;
+    z-index: 10;
     &.fixed{
       position: fixed;
       top: 0;
