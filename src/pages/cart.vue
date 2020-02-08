@@ -1,19 +1,21 @@
 <template>
   <div>
-    <order-header></order-header>
-    <div>cart</div>
-    <order-footer></order-footer>
+    <order-header title="我的购物车" username="Hansen">
+      <template v-slot:cart>温馨提示：产品是否购买成功了呢</template>
+    </order-header>
+    <nav-footer></nav-footer>
   </div>
 </template>
 
 <script>
 import OrderHeader from './../components/OrderHeader'
-import OrderFooter from './../components/OrderFooter'
+import NavFooter from './../components/NavFooter'
+
 export default {
   name: 'cart',
   components: {
     OrderHeader,
-    OrderFooter
+    NavFooter
   }
 }
 
