@@ -8,13 +8,14 @@
         <h2>{{title}}<span><slot name="cart"></slot></span></h2>
       </div>
       <div class="username fr">
-        <a href="javascript:;">Hansen</a>
+        <a href="javascript:;">{{username}}</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'order-header',
   props: {
@@ -25,6 +26,9 @@ export default {
     username: {
       type: String,
       default: ''
+    },
+    computed: {
+      ...mapState(['username'])
     }
   }
 }
