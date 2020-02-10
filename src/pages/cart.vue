@@ -10,14 +10,13 @@
             <li class="col-1"><span class="checkbox" :class="{'checked':allChecked}" v-on:click="toggleAllSelect"></span>全选</li>
             <li class="col-3">商品名称</li>
             <li class="col-1">单价</li>
-            <li class="col-2">数量</li>
             <li class="col-1">小计</li>
             <li class="col-1">操作</li>
           </ul>
           <ul class="cart-item-list">
             <li class="cart-item" v-for="item of list" :key="item.id">
               <div class="item-check">
-                <span class="checkbox" :class="{'checked': item.productSelected}"></span>
+                <span class="checkbox" :class="{'checked': item.productSelected}" @click="updateCart(item)"></span>
               </div>
               <div class="item-name">
                 <img v-lazy="item.productMainImage" :alt="item.productName">
@@ -26,13 +25,13 @@
               <div class="item-price">{{item.productPrice}}</div>
               <div class="item-num">
                 <div class="num-box">
-                  <a href="javascript:;">-</a>
+                  <button @click="updateCart(item, '-')">-</button>
                   <span>{{item.quantity}}</span>
-                  <a href="javascript:;">+</a>
+                  <button @click="updateCart(item, '+')">+</button>
                 </div>
               </div>
               <div class="item-total">{{item.productTotalPrice}}元</div>
-              <div class="item-del"></div>
+              <div class="item-del" @click="delProduct(item)"></div>
             </li>
           </ul>
         </div>
@@ -43,18 +42,32 @@
           </div>
           <div class="total fr">
             合计: <span>{{cartTotalPrice}}</span>元
-            <a href="javascript:;" class="btn">去结算</a>
+            <a href="javascript:;" class="btn" v-on:click="order">去结算</a>
           </div>
         </div>
       </div>
     </div>
     <nav-footer></nav-footer>
+    <modal
+      title="提示"
+      btnType="3"
+      sureText="确定"
+      cancelText="取消"
+      :showModal = "showModal"
+      @submit = "delProductSubmit()"
+      @cancel="showModal=false"
+    >
+      <template v-slot:body>
+        <p>确定要删除商品吗？</p>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
 import OrderHeader from './../components/OrderHeader'
 import NavFooter from './../components/NavFooter'
+import Modal from './../components/Modal'
 
 export default {
   name: 'cart',
@@ -67,24 +80,66 @@ export default {
       // 商品总金额
       cartTotalPrice: 0,
       // 选中的商品数量
-      checkNum: 0
+      checkNum: 0,
+      // 是否出现弹框
+      showModal: false,
+      // 商品id
+      ProductId: 0
     }
   },
   components: {
     OrderHeader,
-    NavFooter
+    NavFooter,
+    Modal
 
   },
   mounted () {
     this.getCartList()
   },
   methods: {
+    // 拿取购物车列表
     getCartList () {
       // 这个是解构写法，返回后台数据
       this.axios.get('carts').then((res) => {
         this.renderCartData(res)
       })
     },
+    // 更新购物车数量和购物车单选状态
+    updateCart (item, type) {
+      let quantity = item.quantity
+      let selected = item.productSelected
+      if (type === '-') {
+        --quantity
+        // 为了限制不能小于1
+        quantity = Math.max(quantity, 1)
+      } else if (type === '+') {
+        ++quantity
+        // 为了限制不能大于库存
+        quantity = Math.min(quantity, item.productStock)
+      } else {
+        // 如果选中就让他不选中，取反
+        selected = !item.productSelected
+      }
+      this.axios.put(`/carts/${item.productId}`, {
+        quantity,
+        selected
+      }).then((res) => {
+        this.renderCartData(res)
+      })
+    },
+    // 删除购物车商品
+    delProduct (item) {
+      this.showModal = true
+      this.productId = item.productId
+    },
+    // 判断是否要删除商品
+    delProductSubmit () {
+      this.axios.delete(`/carts/${this.productId}`).then((res) => {
+        this.showModal = false
+        this.renderCartData(res)
+      })
+    },
+    // 控制全选功能
     toggleAllSelect () {
       const url = this.allChecked ? '/carts/unSelectAll' : '/carts/selectAll'
       this.axios.put(url).then((res) => {
@@ -100,10 +155,19 @@ export default {
         // item就是list的数据，然后下面return的是true
         return item.productSelected
       }).length
+    },
+    // 订单提交页面
+    order () {
+      // 判断是否每个都选中，如果没有则不能提交,every返回布尔值，只有全部是true才返回true
+      const isCheck = this.list.every(item => !item.productSelected)
+      if (isCheck === true) {
+        alert("亲！您还没有选择商品哦(●'◡'●)")
+      } else {
+        this.$router.push('/order/confirm')
+      }
     }
   }
 }
-
 </script>
 
 <style lang="scss">
@@ -187,17 +251,19 @@ export default {
                 width: 150px;
                 height: 40px;
                 line-height: 40px;
-                border: 1px solid #e5e5e5;
                 font-size: 14px;
-                a{
+                button{
                   display: inline-block;
                   width: 50px;
+                  height: 40px;
                   color: #333;
+                  border: none;
                 }
                 span{
                   display: inline-block;
-                  width: 50px;
+                  width: 48px;
                   color: #333;
+                  background: #00000011;
                 }
               }
             }

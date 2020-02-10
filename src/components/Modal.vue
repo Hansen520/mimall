@@ -83,9 +83,11 @@ export default {
       }
     &.slide-leave-active{
         left: -100%;
+        opacity: 0;
       }
     &.slide-enter{
         left: -100%;
+        opacity: 0
       }
     .modal-dialog{
       @include position(absolute, 40%, null, null, 50%, 400px, auto);
