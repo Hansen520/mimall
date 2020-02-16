@@ -13,14 +13,15 @@
           <h3>
             <span class="checked">账号登入</span><span class="sep-line">|</span><span>扫码登入</span>
           </h3>
+          <p class="err">{{err}}</p>
           <div class="input">
             <!-- v-model为数据双向绑定，这边输入了 -->
-            <input type="text" placeholder="请输入账号" v-model="username">
+            <input type="text" placeholder="请输入账号" v-model="username" @keydown.enter="login">
           </div>
           <div class="input">
-            <input type="text" placeholder="请输入密码" v-model="password">
+            <input type="text" placeholder="请输入密码" v-model="password" @keydown.enter="login">
           </div>
-          <div class="btn btn-huge" @click="login">
+          <div class="btn btn-huge" @click="login" >
             <a href="javascript:;" class="btn">登入</a>
           </div>
           <div class="tips">
@@ -42,22 +43,40 @@ export default {
       username: '',
       password: '',
       // 这个是登入时的唯一id，但是这边先用cookies代替
-      userId: ''
+      userId: '',
+      // 报错信息
+      err: ''
     }
   },
   methods: {
     login () {
       // 解构解析，this相当于上面data里面所有的数据
       const { username, password } = this
+      if (!this.username) {
+        this.err = '*用户名不能为空'
+        return
+      } else if (!this.password) {
+        this.err = '*密码不能为空'
+        return
+      }
       this.axios.post('/user/login', {
         username,
         password
       }).then((res) => {
-        // 往userId里面传入res.id,然后cookies的有效期为1个月
-        this.$cookie.set('userId', res.id, { expires: '1M' })
+        // 往userId里面传入res.id,然后cookies的有效期为1个月，也可以设置为Session关闭浏览器后
+        this.$cookie.set('userId', res.id, { expires: 'Session' })
         // 向Actions派发数据，参数一名字自定义，参数二为派发的数据
         this.$store.dispatch('saveUserName', res.username)
-        this.$router.push('/index')
+        // this.$router.push('/index')
+        // 下面的意思是说跳转到index页面还配上参数，index/from=login，但是这个from=login，地址栏是隐藏的，也是为了重新登入后的数据消失
+        this.$router.push({
+          name: 'index',
+          params: {
+            from: 'login'
+          }
+        })
+      }).catch((err) => {
+        this.err = '*' + err
       })
     },
     // 注册也写在一个页面里面，毕竟自己写的页面无所谓
@@ -107,13 +126,18 @@ export default {
           line-height: 23px;
           font-size: 16px;
           text-align: center;
-          margin: 40px auto 49px;
+          margin: 40px auto 30px;
           .checked{
             color: #ff6600;
           }
           .sep-line{
             margin: 0 32px;
           }
+        }
+        .err{
+          color: red;
+          font-size: 16px;
+          margin-bottom: 10px;
         }
         .input{
           width: 285px;

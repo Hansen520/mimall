@@ -15,8 +15,11 @@ export default {
     }
   },
   mounted () {
-    this.getUser()
-    this.getCartCount()
+    // 只有获得了用户信息才调用下面两个接口
+    if (this.$cookie.get('userId')) {
+      this.getUser()
+      this.getCartCount()
+    }
   },
   methods: {
     getUser () {

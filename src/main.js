@@ -31,7 +31,6 @@ axios.interceptors.response.use(function (response) {
     }
     return Promise.reject(res.msg)
   } else {
-    alert(res.msg)
     // 为了防止没有登入也会跳到首页
     return Promise.reject(res.msg)
   }

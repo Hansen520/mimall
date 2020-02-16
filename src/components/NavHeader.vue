@@ -11,8 +11,9 @@
         <div class="topbar-user">
           <a href="javascript:;" v-if="username">{{username}}</a>
           <a href="javascript:;" v-if="username">我的订单</a>
+          <a href="javascript:;" v-if="username" @click="logout">退出</a>
           <a href="javascript:;"  v-if="!username" @click="login">登入</a>
-          <a href="javascript:;" class="my-cart"><span class="icon-cart"></span>购物车({{cartCount}})</a>
+          <a href="javascript:;" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车({{cartCount}})</a>
         </div>
       </div>
     </div>
@@ -131,6 +132,13 @@ export default {
   },
   mounted () {
     this.getProductList()
+    // 记住是$route
+    const params = this.$route.params
+    console.log(params)
+    // 只有在登入页面返回首页时候才重新获取购物车的数量
+    if (params && params.from === 'login') {
+      this.getCartCount()
+    }
   },
   computed: {
     // 用计算属性返回来自vuex里的数据，防止数据加载延迟的情况
@@ -152,8 +160,27 @@ export default {
         this.phoneList = list.slice(0, 6)
       })
     },
+    // 登入接口
     login () {
       this.$router.push('/login')
+    },
+    // 获取购物车数量接口，这个接口在这里的设置是为了在退出后再登入购物车数量为0
+    getCartCount () {
+      this.axios.get('/carts/products/sum').then((res = 0) => {
+        this.$store.dispatch('saveCartCount', res)
+      })
+    },
+    logout () {
+      this.axios.post('/user/logout').then(() => {
+        alert('退出成功')
+        this.$cookie.set('userId', '', { exppires: '-1' })
+        this.$store.dispatch('saveUserName', '')
+        this.$store.dispatch('saveCartCount', 0)
+      })
+    },
+    // 进入到购物车
+    goToCart () {
+      this.$router.push('/cart')
     }
   }
 }
@@ -175,6 +202,7 @@ export default {
         a{
           display: inline-block;
           color:#b0b0b0;
+          margin-right: 10px;
         }
         .my-cart{
           width: 110px;
