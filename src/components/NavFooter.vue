@@ -5,12 +5,12 @@
       <p>小米商城</p>
     </div>
     <div class="footer-link">
-      <a href="https://www.imooc.com/u/1343480" target="_blank">Hansen学习主页</a><span>|</span>
-      <a href="https://coding.imooc.com/class/113.html" target="_blank">Vue全栈</a><span>|</span>
-      <a href="https://coding.imooc.com/class/236.html" target="_blank">Vue全家桶</a><span>|</span>
+      <a href="https://www.imooc.com/u/index/allcourses" target="_blank">Hansen学习主页</a><span>|</span>
+      <a href="https://git.imooc.com/coding-397/MiMall/src/12-1%E8%AE%A2%E5%8D%95%E7%88%B6%E7%BB%84%E4%BB%B6%E7%BB%93%E6%9E%84%E5%B0%81%E8%A3%85/src/pages/order.vue" target="_blank">Vue全栈</a><span>|</span>
+      <a href="https://coding.imooc.com/learn/list/397.html" target="_blank">Vue全家桶</a><span>|</span>
       <a href="https://coding.imooc.com/class/343.html" target="_blank">微信支付</a>
     </div>
-    <div class="copyright">Copyright ©2019 <span class="domain">mi.futurefe.com</span> All Rights Reserved.</div>
+    <div class="copyright">Copyright ©2020 <span class="domain">mi.futurefe.com</span> All Rights Reserved.</div>
   </div>
 </template>
 

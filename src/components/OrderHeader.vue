@@ -5,7 +5,7 @@
         <a href="/#/index"></a>
       </div>
       <div class="title fl">
-        <h2>{{title}}<span><slot name="cart"></slot></span></h2>
+        <h2>{{title}}<span><slot name="tip"></slot></span></h2>
       </div>
       <div class="username fr">
         <a href="javascript:;">{{username}}</a>

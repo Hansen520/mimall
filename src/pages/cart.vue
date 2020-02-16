@@ -1,7 +1,7 @@
 <template>
   <div class="cart">
     <order-header title="我的购物车" username="Hansen">
-      <template v-slot:cart>温馨提示：产品是否购买成功了呢</template>
+      <template v-slot:tip>温馨提示：产品是否购买成功了呢</template>
     </order-header>
     <div class="wrapper">
       <div class="container">
