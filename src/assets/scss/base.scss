@@ -32,6 +32,10 @@ img{
 .clearbox:after{
   clear: both;
 }
+input{
+  box-sizing: border-box;
+  border: none;
+}
 // 小米滑动图片组件样式
 .header-logo{
   width: 55px;

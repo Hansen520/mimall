@@ -163,7 +163,7 @@ export default {
       if (isCheck === true) {
         alert("亲！您还没有选择商品哦(●'◡'●)")
       } else {
-        this.$router.push('/order/confirm')
+        this.$router.push('/order/comfirm')
       }
     }
   }

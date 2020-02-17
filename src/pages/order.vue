@@ -33,8 +33,7 @@ export default {
   },
   mounted () {
     const path = this.$route.path
-    console.log(path)
-    if (path === '/order/confirm') {
+    if (path === '/order/comfirm') {
       this.title = '订单确认'
       this.tip = '请认真填写收货地址'
     } else if (path === '/order/list') {
