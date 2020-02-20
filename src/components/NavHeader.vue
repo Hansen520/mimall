@@ -134,7 +134,7 @@ export default {
     this.getProductList()
     // 记住是$route
     const params = this.$route.params
-    console.log(params)
+    // console.log(params)
     // 只有在登入页面返回首页时候才重新获取购物车的数量
     if (params && params.from === 'login') {
       this.getCartCount()

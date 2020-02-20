@@ -45,8 +45,8 @@
             <h3>选择以下支付方式付款</h3>
             <div class="pay-way">
               <p>支付平台</p>
-              <div class="pay pay-ali"></div>
-              <div class="pay pay-wechat"></div>
+              <div class="pay pay-ali" :class="{'checked': paytype === 1}" @click="pay(1)"></div>
+              <div class="pay pay-wechat" :class="{'checked': paytype === 2}" @click="pay(2)"></div>
             </div>
           </div>
         </div>
@@ -68,7 +68,9 @@ export default {
       // 是否显示订单详情
       showDetail: false,
       // 支付的总金额
-      payment: 0
+      payment: 0,
+      // 支付类型 1为支付宝，2为微信
+      paytype: 1
     }
   },
   mounted () {
@@ -82,6 +84,15 @@ export default {
         this.orderDetail = res.orderItemVoList
         this.payment = res.payment
       })
+    },
+    // 1支付宝支付，2微信支付
+    pay (paytype) {
+      if (paytype === 1) {
+        this.paytype = 1
+        window.open('/#/order/alipay?orderId=' + this.orderNo, '_blank')
+      } else if (paytype === 2) {
+        this.paytype = 2
+      }
     }
   }
 }
