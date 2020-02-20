@@ -299,6 +299,7 @@ export default {
         return false
       }
       this.axios.post('/orders', {
+        // 传递当前选定的地址
         shippingId: item.id
       }).then((res) => {
         this.$router.push({
