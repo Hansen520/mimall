@@ -1,6 +1,6 @@
 <template>
   <div class="cart">
-    <order-header title="我的购物车" username="Hansen">
+    <order-header title="我的购物车" :username="username">
       <template v-slot:tip>温馨提示：产品是否购买成功了呢</template>
     </order-header>
     <div class="wrapper">
@@ -92,6 +92,11 @@ export default {
     NavFooter,
     Modal
 
+  },
+  computed: {
+    username () {
+      return this.$store.state.username
+    }
   },
   mounted () {
     this.getCartList()

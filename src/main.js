@@ -25,6 +25,7 @@ axios.interceptors.response.use(function (response) {
   // 商定 状态码0是成功，10是未登入跳到登入页面
   if (res.status === 0) {
     return res.data
+    // 像下面的10报错都是业务报错，如果想拦截后台报错，我们需要继续加
   } else if (res.status === 10) {
     if (path !== '#/index') {
       window.location.href = '#/login'
@@ -36,6 +37,12 @@ axios.interceptors.response.use(function (response) {
     alert(res.msg)
     return Promise.reject(res.msg)
   }
+}, (error) => {
+  // 这里是后台发来的报错
+  const res = error.response
+  alert(res.data.message.substr(-6))
+  return Promise.reject(res)
+  // 如果返回的是flase，则需要在前面添加catch提示错误
 })
 
 // 将axios挂载到vueAxios上面

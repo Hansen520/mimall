@@ -1,5 +1,10 @@
 <template>
   <div class="ali-pay">
+    <order-header title="订单支付">
+      <template v-slot:tip>
+          请谨防钓鱼链接或诈骗电话，了解更多
+      </template>
+    </order-header>
     <loading v-if="loading"></loading>
     <!-- content里面返回的是支付宝返回的页面内容，是一个表单信息 -->
     <div class="content" v-html="content"></div>
@@ -7,6 +12,7 @@
 </template>
 
 <script>
+import OrderHeader from './../components/OrderHeader'
 import Loading from './../components/Loading'
 export default {
   // 取任何名字都行
@@ -20,6 +26,7 @@ export default {
     }
   },
   components: {
+    OrderHeader,
     Loading
   },
   mounted () {
