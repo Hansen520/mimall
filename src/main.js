@@ -15,7 +15,7 @@ axios.defaults.baseURL = '/api'
 // 默认设置时间未8000，比如超出8秒一定要做设置，不然用户体验不好
 axios.defaults.timeout = 8000
 // 根据环境变量获取不同的请求地址，这个是cors和jsonp跨域使用的方式，
-// 如果要用这种方式，就要通过改env下面的mock地址来实现
+// 如果要用这种方式，就要通过改env    下面的mock地址来实现
 // axios.defaults.baseURL = env.baseURL
 // 返回数据时候拦截器
 
@@ -29,9 +29,11 @@ axios.interceptors.response.use(function (response) {
     if (path !== '#/index') {
       window.location.href = '#/login'
     }
+    alert(res.msg)
     return Promise.reject(res.msg)
   } else {
     // 为了防止没有登入也会跳到首页
+    alert(res.msg)
     return Promise.reject(res.msg)
   }
 })

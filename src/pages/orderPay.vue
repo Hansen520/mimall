@@ -52,10 +52,29 @@
         </div>
       </div>
     </div>
+    <scan-pay-code
+    :img="qrCode"
+    :wxpay="showWxpay"
+    @close="closePayModal"
+    ></scan-pay-code>
+    <modal
+      title="支付确认"
+      btnType="3"
+      :showModal="showPayModal"
+      sureText="查看订单"
+      cancelText="未支付"
+      @cancel="showPayModal=false"
+      @submit="goOrderList"
+    >
+    <template v-slot:body>你确定支付了吗？</template>
+    </modal>
   </div>
 </template>
 
 <script>
+import QRCode from 'qrcode'
+import ScanPayCode from './../components/ScanPayCode'
+import Modal from './../components/Modal'
 export default {
   name: 'order-pay',
   data () {
@@ -70,8 +89,21 @@ export default {
       // 支付的总金额
       payment: 0,
       // 支付类型 1为支付宝，2为微信
-      paytype: 1
+      paytype: 1,
+      // 微信支付二维码
+      qrCode: '',
+      // 是否显示微信二维码弹框
+      showWxpay: false,
+      // 是否显示modal提示弹框,第二次支付确认弹框
+      showPayModal: false,
+      // 定时器，用作轮询，判断微信有没有支付成功，如果没有成功一直轮询
+      T: ''
     }
+  },
+  components: {
+    // 微信扫码跳出来组件
+    ScanPayCode,
+    Modal
   },
   mounted () {
     this.getOrderDetail()
@@ -92,7 +124,47 @@ export default {
         window.open('/#/order/alipay?orderId=' + this.orderNo, '_blank')
       } else if (paytype === 2) {
         this.paytype = 2
+        this.axios.post('/pay', {
+          orderId: this.orderNo,
+          orderName: 'Vue高仿小米商城2020年2月21日支付宝功能',
+          amount: 0.01, // 元
+          payType: 2
+        }).then(({ content }) => {
+          QRCode.toDataURL(content)
+            .then(url => {
+              this.qrCode = url
+              this.showWxpay = true
+              // 轮询
+              this.loopOrderState()
+            })
+            .catch(() => {
+              alert('此支付二维码失效！')
+            })
+        })
       }
+    },
+    // 轮询当前订单支付状态
+    loopOrderState () {
+      // 就是说每隔1000mm去调用下接口，看看有没有完成支付，如果完成就自动跳到订单页面
+      this.T = setInterval(() => {
+        this.axios.get(`/orders/${this.orderNo}`).then((res) => {
+          if (res.status === 20) {
+            // 清除定时器，防止关闭后一直轮询
+            clearInterval(this.T)
+            this.goOrderList()
+          }
+        })
+      }, 1000)
+    },
+    // 关闭微信弹框
+    closePayModal () {
+      clearInterval(this.T)
+      this.showWxpay = false
+      this.showPayModal = true
+    },
+    // 支付成功后跳转到订单查看页面
+    goOrderList () {
+      this.$router.push('/order/list')
     }
   }
 }
