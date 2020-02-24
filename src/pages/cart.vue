@@ -166,7 +166,7 @@ export default {
       // 判断是否每个都选中，如果没有则不能提交,every返回布尔值，只有全部是true才返回true
       const isCheck = this.list.every(item => !item.productSelected)
       if (isCheck === true) {
-        alert("亲！您还没有选择商品哦(●'◡'●)")
+        this.$message.error("亲！您还没有选择商品哦(●'◡'●)")
       } else {
         this.$router.push('/order/comfirm')
       }

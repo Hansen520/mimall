@@ -254,7 +254,7 @@ export default {
           errMsg = '请输入六位邮编'
         }
         if (errMsg) {
-          alert(errMsg)
+          this.$message.error(errMsg)
           return
         }
         data = {
@@ -273,9 +273,9 @@ export default {
         this.closeModal()
         // 这里避免用户并行，重新拉取一次数据
         this.getAddressList()
-        alert('操作成功')
+        this.$message.success('操作成功')
       }).catch((err) => {
-        console.log(err)
+        this.$message.error(err)
       })
     },
     // 关闭modal后发生的事情
@@ -302,7 +302,7 @@ export default {
       // 直接判断全部列表中的索引，这是巧妙的用法
       const item = this.list[this.checkIndex]
       if (!item) {
-        alert('请选择一个地址')
+        this.$message.error('请选择一个地址')
         return false
       }
       this.axios.post('/orders', {

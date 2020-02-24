@@ -145,7 +145,7 @@ export default {
               this.loopOrderState()
             })
             .catch(() => {
-              alert('此支付二维码失效！')
+              this.$message.error('此支付二维码失效！')
             })
         })
       }

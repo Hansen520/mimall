@@ -13,7 +13,6 @@
           <h3>
             <span class="checked">账号登入</span><span class="sep-line">|</span><span>扫码登入</span>
           </h3>
-          <p class="err">{{err}}</p>
           <div class="input">
             <!-- v-model为数据双向绑定，这边输入了 -->
             <input type="text" placeholder="请输入账号" v-model="username" @keydown.enter="login">
@@ -43,9 +42,7 @@ export default {
       username: '',
       password: '',
       // 这个是登入时的唯一id，但是这边先用cookies代替
-      userId: '',
-      // 报错信息
-      err: ''
+      userId: ''
     }
   },
   methods: {
@@ -53,10 +50,10 @@ export default {
       // 解构解析，this相当于上面data里面所有的数据
       const { username, password } = this
       if (!this.username) {
-        this.err = '*用户名不能为空'
+        this.$message.error('用户名不能为空')
         return
       } else if (!this.password) {
-        this.err = '*密码不能为空'
+        this.$message.error('密码不能为空')
         return
       }
       this.axios.post('/user/login', {
@@ -75,8 +72,6 @@ export default {
             from: 'login'
           }
         })
-      }).catch((err) => {
-        this.err = '*' + err
       })
     },
     // 注册也写在一个页面里面，毕竟自己写的页面无所谓
@@ -87,7 +82,7 @@ export default {
         password,
         email: 'pptppt@163.com'
       }).then(() => {
-        alert('注册成功')
+        this.$message.success('注册成功')
       })
     }
   }
@@ -133,11 +128,6 @@ export default {
           .sep-line{
             margin: 0 32px;
           }
-        }
-        .err{
-          color: red;
-          font-size: 16px;
-          margin-bottom: 10px;
         }
         .input{
           width: 285px;

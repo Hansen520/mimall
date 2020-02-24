@@ -4,6 +4,8 @@ import axios from 'axios'
 import vueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
+import { Message } from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import store from './store'
 // import env from './env'
@@ -30,18 +32,18 @@ axios.interceptors.response.use(function (response) {
     if (path !== '#/index') {
       window.location.href = '#/login'
     }
-    alert(res.msg)
+    Message.error(res.msg)
     return Promise.reject(res.msg)
   } else {
     // 为了防止没有登入也会跳到首页
-    alert(res.msg)
+    Message.error(res.msg)
     return Promise.reject(res.msg)
   }
 }, (error) => {
   // 这里是后台发来的报错
   const res = error.response
-  alert(res.data.message.substr(-6))
-  return Promise.reject(res)
+  Message.error(res.data.message.substr(-6))
+  return Promise.reject(error)
   // 如果返回的是flase，则需要在前面添加catch提示错误
 })
 
@@ -53,6 +55,9 @@ Vue.use(VueLazyLoad, {
 })
 // VueCookie
 Vue.use(VueCookie)
+// Vue.use(Message)
+// 在Vue原型上加上$message方法,通过$message去引用
+Vue.prototype.$message = Message
 
 Vue.config.productionTip = false
 

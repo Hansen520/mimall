@@ -47,15 +47,16 @@
               </div>
             </div>
           </div>
-          <div class="scroll-more"
-            v-infinite-scroll="scrollMore"
-            infinite-scroll-disabled="busy"
-            infinite-scroll-distance="210"
-          >
-            <img src="/imgs/loading-svg/loading-spinning-bubbles.svg" alt="" v-show="loading">
-          </div>
         </div>
-
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="total"
+          :pageSize="pageSize"
+          :hideOnSinglePage="true"
+          @current-change="handleCurrentChange"
+          >
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -65,49 +66,34 @@
 import OrderHeader from './../components/OrderHeader'
 import Loading from './../components/Loading'
 import NoData from './../components/NoData'
-import infiniteScroll from 'vue-infinite-scroll'
+import { Pagination } from 'element-ui'
 export default {
   name: 'order-list',
   data () {
     return {
       // 订单列表
-      list: [],
+      list: '',
       // 是否加载loading
-      loading: false,
+      loading: true,
       // 每页显示条数
       pageSize: 5,
       // 总数
       total: 0,
       // 当前页码
-      pageNum: 1,
-      // 判断是否显示加载更多，当显示最后一页时，加载更多消失
-      showNextPage: true,
-      // 滚动判断 false为要自动加载，true为不加载
-      busy: false
+      pageNum: 1
     }
   },
   components: {
     OrderHeader,
     Loading,
-    NoData
-  },
-  directives: {
-    // 滚动加载器的局部注册
-    infiniteScroll
+    NoData,
+    // [Pagination.name]是自定义组件命名,或者ElPagination: Pagination
+    [Pagination.name]: Pagination
   },
   mounted () {
-    // this.getOrderList()
+    this.getOrderList()
   },
   methods: {
-    // 第三种滚动加载，通过npm插件实现
-    scrollMore () {
-      this.loading = true
-      this.busy = true
-      setTimeout(() => {
-        this.getOrderList()
-        this.pageNum++
-      }, 1000)
-    },
     getOrderList () {
       this.axios.get('/orders', {
         params: {
@@ -118,14 +104,10 @@ export default {
         }
       }).then((res) => {
         this.loading = false
-        // 为了让list进行拼接出现
-        this.list = this.list.concat(res.list)
-        // 判断有没有下一页，后台传入，是通过距离底下410px距离时才开始判断，infinite-scroll-distance="410"
-        if (res.hasNextPage) {
-          this.busy = false
-        } else {
-          this.busy = true
-        }
+        this.list = res.list
+        this.total = res.total
+      }).catch(() => {
+        this.loading = false
       })
     },
     goPay (orderNo) {
@@ -135,6 +117,11 @@ export default {
           orderNo
         }
       })
+    },
+    handleCurrentChange (pageNum) {
+      // 会把当前页码给pageNum
+      this.pageNum = pageNum
+      this.getOrderList()
     }
   }
 }

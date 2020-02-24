@@ -172,7 +172,7 @@ export default {
     },
     logout () {
       this.axios.post('/user/logout').then(() => {
-        alert('退出成功')
+        this.$message.success('退出成功')
         this.$cookie.set('userId', '', { exppires: '-1' })
         this.$store.dispatch('saveUserName', '')
         this.$store.dispatch('saveCartCount', 0)

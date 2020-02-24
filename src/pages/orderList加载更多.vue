@@ -47,12 +47,8 @@
               </div>
             </div>
           </div>
-          <div class="scroll-more"
-            v-infinite-scroll="scrollMore"
-            infinite-scroll-disabled="busy"
-            infinite-scroll-distance="210"
-          >
-            <img src="/imgs/loading-svg/loading-spinning-bubbles.svg" alt="" v-show="loading">
+          <div class="load-more" v-if="showNextPage">
+            <el-button type="primary" :loading="loading" @click="loadMore">加载更多</el-button>
           </div>
         </div>
 
@@ -65,7 +61,7 @@
 import OrderHeader from './../components/OrderHeader'
 import Loading from './../components/Loading'
 import NoData from './../components/NoData'
-import infiniteScroll from 'vue-infinite-scroll'
+import { Pagination, Button } from 'element-ui'
 export default {
   name: 'order-list',
   data () {
@@ -81,33 +77,21 @@ export default {
       // 当前页码
       pageNum: 1,
       // 判断是否显示加载更多，当显示最后一页时，加载更多消失
-      showNextPage: true,
-      // 滚动判断 false为要自动加载，true为不加载
-      busy: false
+      showNextPage: true
     }
   },
   components: {
     OrderHeader,
     Loading,
-    NoData
-  },
-  directives: {
-    // 滚动加载器的局部注册
-    infiniteScroll
+    NoData,
+    // [Pagination.name]是自定义组件命名,或者ElPagination: Pagination
+    [Pagination.name]: Pagination,
+    [Button.name]: Button
   },
   mounted () {
-    // this.getOrderList()
+    this.getOrderList()
   },
   methods: {
-    // 第三种滚动加载，通过npm插件实现
-    scrollMore () {
-      this.loading = true
-      this.busy = true
-      setTimeout(() => {
-        this.getOrderList()
-        this.pageNum++
-      }, 1000)
-    },
     getOrderList () {
       this.axios.get('/orders', {
         params: {
@@ -120,12 +104,10 @@ export default {
         this.loading = false
         // 为了让list进行拼接出现
         this.list = this.list.concat(res.list)
-        // 判断有没有下一页，后台传入，是通过距离底下410px距离时才开始判断，infinite-scroll-distance="410"
-        if (res.hasNextPage) {
-          this.busy = false
-        } else {
-          this.busy = true
-        }
+        this.showNextPage = res.hasNextPage
+        this.total = res.total
+      }).catch(() => {
+        this.loading = false
       })
     },
     goPay (orderNo) {
@@ -135,6 +117,15 @@ export default {
           orderNo
         }
       })
+    },
+    handleCurrentChange (pageNum) {
+      // 会把当前页码给pageNum
+      this.pageNum = pageNum
+      this.getOrderList()
+    },
+    loadMore () {
+      this.pageNum++
+      this.getOrderList()
     }
   }
 }
