@@ -13,5 +13,10 @@ module.exports = {
         }
       }
     }
+  },
+  // 用于生产打包代码转码变化
+  productionSourceMap: true,
+  chainWebpack: (config) => {
+    config.plugins.delete('prefetch')
   }
 }

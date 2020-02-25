@@ -2,15 +2,15 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './pages/home'
 import Index from './pages/index'
-import Product from './pages/product'
-import Alipay from './pages/alipay'
-import Cart from './pages/cart'
-import Detail from './pages/detail'
-import Login from './pages/login'
-import Order from './pages/order'
-import OrderComfirm from './pages/orderComfirm'
-import OrderList from './pages/orderList'
-import OrderPay from './pages/orderPay'
+// import Product from './pages/product'
+// import Alipay from './pages/alipay'
+// import Cart from './pages/cart'
+// import Detail from './pages/detail'
+// import Login from './pages/login'
+// import Order from './pages/order'
+// import OrderComfirm from './pages/orderComfirm'
+// import OrderList from './pages/orderList'
+// import OrderPay from './pages/orderPay'
 
 Vue.use(Router)
 
@@ -25,49 +25,50 @@ export default new Router({
       children: [{
         path: '/index',
         name: 'index',
+        // 这个是根据需要再进行加载
         component: Index
       }, {
         path: '/product/:id',
         name: 'product',
-        component: Product
+        component: resolve => require(['./pages/product.vue'], resolve)
       }, {
         path: '/detail/:id',
         name: 'detail',
-        component: Detail
+        component: resolve => require(['./pages/detail.vue'], resolve)
       }
       ]
     }, {
       path: '/cart',
       name: 'cart',
-      component: Cart
+      component: resolve => require(['./pages/cart.vue'], resolve)
     }, {
       path: '/order',
       name: 'order',
-      component: Order,
+      component: resolve => require(['./pages/order.vue'], resolve),
       children: [
         {
           // 不用加/，因为他会自动加
           path: 'comfirm',
           name: 'order-comfirm',
-          component: OrderComfirm
+          component: resolve => require(['./pages/orderComfirm.vue'], resolve)
         }, {
           path: 'list',
           name: 'order-list',
-          component: OrderList
+          component: resolve => require(['./pages/orderList.vue'], resolve)
         }, {
           path: 'pay',
           name: 'order-pay',
-          component: OrderPay
+          component: resolve => require(['./pages/orderPay.vue'], resolve)
         }, {
           path: 'alipay',
           name: 'alipay',
-          component: Alipay
+          component: resolve => require(['./pages/alipay.vue'], resolve)
         }
       ]
     }, {
       path: '/login',
       name: 'login',
-      component: Login
+      component: resolve => require(['./pages/login.vue'], resolve)
     }
 
   ]
