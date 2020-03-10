@@ -5,13 +5,13 @@ let baseURL
  * 切记这个是cors跨域模式或者是jsonp跨域模式下的，而proxy不用这玩意 */
 
 if (process.env.NODE_ENV === 'development') {
-  baseURL = 'http://dev-mall-pre.springboot.cn/api'
+  baseURL = 'http://mall-pre.springboot.cn/'
 } else if (process.env.NODE_ENV === 'test') {
-  baseURL = 'http://test-mall-pre.springboot.cn/api'
+  baseURL = 'http://mall-pre.springboot.cn/'
 } else if (process.env.NODE_ENV === 'production') {
-  baseURL = 'http://mall-pre.springboot.cn/api'
+  baseURL = 'http://mall-pre.springboot.cn/'
 } else {
-  baseURL = 'http://mall-pre.springboot.cn/api'
+  baseURL = 'http://mall-pre.springboot.cn/'
 }
 
 export default {

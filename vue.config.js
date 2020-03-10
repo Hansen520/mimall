@@ -1,3 +1,4 @@
+
 module.exports = {
   devServer: {
     host: 'localhost',
@@ -15,7 +16,8 @@ module.exports = {
     }
   },
   // 用于生产打包代码转码变化
-  productionSourceMap: true,
+  productionSourceMap: false,
+  // 删除预加载
   chainWebpack: (config) => {
     config.plugins.delete('prefetch')
   }
