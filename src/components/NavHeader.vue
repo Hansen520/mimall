@@ -242,6 +242,7 @@ export default {
               .children{
                 height: 220px;
                 opacity: 1;
+                border-top: 1px solid #e5e5e5;
               }
             }
             .children{
@@ -253,7 +254,6 @@ export default {
               transition: height .5s;
               width: 1226px;
               height:0;
-              border-top: 1px solid #e5e5e5;
               box-shadow: 0 7px 6px 0 rgba(0, 0, 0, 0.11);
               z-index: 10;
               overflow: hidden;
