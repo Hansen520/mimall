@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import store from './store'
 import env from './env'
+import responsive from './responsive'
 
 // 根据前端的跨域方式做调整 并在每个接口前加上/api,最后通过代理方式删除/api，这里作为真实对接地址，是后台开发完成的
 // axios.defaults.baseURL = '/api'
@@ -58,6 +59,8 @@ Vue.use(VueLazyLoad, {
 })
 // VueCookie
 Vue.use(VueCookie)
+// responsive
+Vue.use(responsive)
 // Vue.use(Message)
 // 在Vue原型上加上$message方法,通过$message去引用
 Vue.prototype.$message = Message
