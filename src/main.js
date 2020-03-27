@@ -8,17 +8,20 @@ import { Message } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import store from './store'
-import env from './env'
+// import env from './env'
 import responsive from './responsive'
 
+// 第一种
 // 根据前端的跨域方式做调整 并在每个接口前加上/api,最后通过代理方式删除/api，这里作为真实对接地址，是后台开发完成的
-// axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = '/api'
 
+// 第二种
 // easy-mock模拟地址,是后台没有开发完成的
 // axios.defaults.baseURL = ' https://www.easy-mock.com/mock/5e2832dcbc40327ccfcf507f/mall'
 
+// 第三种
 // env.js模式，适用于cor跨域和jsonp跨域
-axios.defaults.baseURL = env.baseURL
+// axios.defaults.baseURL = env.baseURL
 
 // 默认设置时间未8000，比如超出8秒一定要做设置，不然用户体验不好
 axios.defaults.timeout = 8000

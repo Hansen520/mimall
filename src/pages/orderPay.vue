@@ -128,6 +128,7 @@ export default {
     pay (paytype) {
       if (paytype === 1) {
         this.paytype = 1
+        // 打开支付宝支付页面，this.orderNo通过order-comfirm的路由传参过来的
         window.open('/#/order/alipay?orderId=' + this.orderNo, '_blank')
       } else if (paytype === 2) {
         this.paytype = 2
@@ -137,6 +138,7 @@ export default {
           amount: 0.01, // 元
           payType: 2
         }).then(({ content }) => {
+          // 如果请求接口成功，则通过二维码插件的形式传回来
           QRCode.toDataURL(content)
             .then(url => {
               this.qrCode = url
