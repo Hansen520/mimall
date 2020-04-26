@@ -84,14 +84,18 @@ export default {
     this.getProductInfo()
   },
   methods: {
-    getProductInfo () {
+    async getProductInfo () {
       // 获取路由id
       const id = this.$route.params.id
-      console.log(id)
-      this.axios.get(`/products/${id}`).then((res) => {
-        console.log(res)
-        this.product = res
+      // console.log(id)
+      const res = await this.$Http.getProductsId({
+        id
       })
+      this.product = res
+      // this.axios.get(`/products/${id}`).then((res) => {
+      //   // console.log(res)
+      //   this.product = res
+      // })
     },
     buy () {
       const id = this.$route.params.id

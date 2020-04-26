@@ -103,14 +103,16 @@ export default {
   },
   methods: {
     // 拿取购物车列表
-    getCartList () {
+    async getCartList () {
+      const res = await this.$Http.cart()
+      this.renderCartData(res)
       // 这个是解构写法，返回后台数据
-      this.axios.get('carts').then((res) => {
-        this.renderCartData(res)
-      })
+      // this.axios.get('carts').then((res) => {
+      //   this.renderCartData(res)
+      // })
     },
     // 更新购物车数量和购物车单选状态
-    updateCart (item, type) {
+    async updateCart (item, type) {
       let quantity = item.quantity
       let selected = item.productSelected
       if (type === '-') {
@@ -125,12 +127,18 @@ export default {
         // 如果选中就让他不选中，取反
         selected = !item.productSelected
       }
-      this.axios.put(`/carts/${item.productId}`, {
+      const res = await this.$Http.updateCart({
+        id: item.productId,
         quantity,
         selected
-      }).then((res) => {
-        this.renderCartData(res)
-      })
+      }, true)
+      this.renderCartData(res)
+      // this.axios.put(`/carts/${item.productId}`, {
+      //   quantity,
+      //   selected
+      // }).then((res) => {
+      //   this.renderCartData(res)
+      // })
     },
     // 删除购物车商品
     delProduct (item) {
@@ -138,18 +146,25 @@ export default {
       this.productId = item.productId
     },
     // 判断是否要删除商品
-    delProductSubmit () {
-      this.axios.delete(`/carts/${this.productId}`).then((res) => {
-        this.showModal = false
-        this.renderCartData(res)
+    async delProductSubmit () {
+      const res = await this.$Http.deleteCart({
+        id: this.productId
       })
+      this.showModal = false
+      this.renderCartData(res)
+      // this.axios.delete(`/carts/${this.productId}`).then((res) => {
+      //   this.showModal = false
+      //   this.renderCartData(res)
+      // })
     },
     // 控制全选功能
-    toggleAllSelect () {
-      const url = this.allChecked ? '/carts/unSelectAll' : '/carts/selectAll'
-      this.axios.put(url).then((res) => {
-        this.renderCartData(res)
-      })
+    async toggleAllSelect () {
+      const res = this.allChecked ? await this.$Http.allSelect({}, true) : await this.$Http.notAllSelect({}, true)
+      // const res = await this.$http.allSelect()
+      this.renderCartData(res)
+      // this.axios.put(url).then((res) => {
+      //   this.renderCartData(res)
+      // })
     },
     // 公共渲染,参数采用解构赋值形式
     renderCartData ({ cartProductVoList, selectedAll, cartTotalPrice }) {

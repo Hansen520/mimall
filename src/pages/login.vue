@@ -46,7 +46,7 @@ export default {
     }
   },
   methods: {
-    login () {
+    async login () {
       // 解构解析，this相当于上面data里面所有的数据
       const { username, password } = this
       if (!this.username) {
@@ -56,34 +56,46 @@ export default {
         this.$message.error('密码不能为空')
         return
       }
-      this.axios.post('/user/login', {
+      const res = await this.$Http.login({
         username,
         password
-      }).then((res) => {
-        // 往userId里面传入res.id,然后cookies的有效期为1个月，也可以设置为Session关闭浏览器后
-        this.$cookie.set('userId', res.id, { expires: 'Session' })
-        // 向Actions派发数据，参数一名字自定义，参数二为派发的数据
-        this.$store.dispatch('saveUserName', res.username)
-        // this.$router.push('/index')
-        // 下面的意思是说跳转到index页面还配上参数，index/from=login，但是这个from=login，地址栏是隐藏的，也是为了重新登入后的数据消失
-        this.$router.push({
-          name: 'index',
-          params: {
-            from: 'login'
-          }
-        })
       })
+      this.$cookie.set('userId', res.id, { expires: 'Session' })
+      this.$store.dispatch('saveUserName', res.username)
+      // this.axios.post('/user/login', {
+      //   username,
+      //   password
+      // }).then((res) => {
+      //   // 往userId里面传入res.id,然后cookies的有效期为1个月，也可以设置为Session关闭浏览器后
+      //   this.$cookie.set('userId', res.id, { expires: 'Session' })
+      //   // 向Actions派发数据，参数一名字自定义，参数二为派发的数据
+      //   this.$store.dispatch('saveUserName', res.username)
+      //   // this.$router.push('/index')
+      //   // 下面的意思是说跳转到index页面还配上参数，index/from=login，但是这个from=login，地址栏是隐藏的，也是为了重新登入后的数据消失
+      this.$router.push({
+        name: 'index',
+        params: {
+          from: 'login'
+        }
+      })
+      // })
     },
     // 注册也写在一个页面里面，毕竟自己写的页面无所谓
-    register () {
+    async register () {
       const { username, password } = this
-      this.axios.post('/user/register', {
+      await this.$Http.logout({
         username,
         password,
         email: 'pptppt@163.com'
-      }).then(() => {
-        this.$message.success('注册成功')
-      })
+      }, true)
+      this.$message.success('注册成功')
+      // this.axios.post('/user/register', {
+      //   username,
+      //   password,
+      //   email: 'pptppt@163.com'
+      // }).then(() => {
+      //   this.$message.success('注册成功')
+      // })
     }
   }
 }

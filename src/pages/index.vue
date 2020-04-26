@@ -326,25 +326,31 @@ export default {
     this.init()
   },
   methods: {
-    init () {
-      this.axios.get('/products', {
-        params: {
-          categoryId: 100012,
-          pageSize: 8
-        }
-      }).then(({ list }) => {
-        this.phoneList = [list.slice(0, 4), list.slice(4, 8)]
+    async init () {
+      const { list } = await this.$Http.getProducts({
+        categoryId: 100012
+        // pageSize: 8
       })
+      this.phoneList = [list.slice(0, 4), list.slice(4, 8)]
     },
-    addCart (id) {
-      this.axios.post('/carts', {
-        // 这里的id勇敢参数传递，也就是detail里面的this.$router.params.id
-        productId: id,
-        selected: true
-      }).then((res = 0) => {
-        this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
-        this.showModal = true
-      })
+    async addCart (id) {
+      const res = await this.$Http.addCart(
+        {
+          productId: id,
+          selected: true
+        },
+        true
+      )
+      this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
+      this.showModal = true
+      // this.axios.post('/carts', {
+      //   // 这里的id勇敢参数传递，也就是detail里面的this.$router.params.id
+      //   productId: id,
+      //   selected: true
+      // }).then((res = 0) => {
+      //   this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
+      //   this.showModal = true
+      // })
     },
     goToCart () {
       this.$router.push('/cart')

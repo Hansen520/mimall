@@ -33,18 +33,29 @@ export default {
     this.paySubmit()
   },
   methods: {
-    paySubmit () {
-      this.axios.post('/pay', {
+    async paySubmit () {
+      const res = await this.$Http.pay({
         orderId: this.orderId,
         orderName: 'Vue高仿小米商城2020年2月20日支付宝功能',
-        amount: 0.3, // 元
+        amount: 0.01, // 元
         payType: 1
-      }).then((res) => {
-        this.content = res.content
-        setTimeout(() => {
-          document.getElementById('bestPayForm').submit()
-        }, 100)
-      })
+      }, true)
+      this.content = res.content
+      setTimeout(() => {
+        document.getElementById('bestPayForm').submit()
+      }, 100)
+
+      // this.axios.post('/pay', {
+      //   orderId: this.orderId,
+      //   orderName: 'Vue高仿小米商城2020年2月20日支付宝功能',
+      //   amount: 0.3, // 元
+      //   payType: 1
+      // }).then((res) => {
+      //   this.content = res.content
+      //   setTimeout(() => {
+      //     document.getElementById('bestPayForm').submit()
+      //   }, 100)
+      // })
     }
   }
 }
