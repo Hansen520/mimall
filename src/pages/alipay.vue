@@ -39,7 +39,7 @@ export default {
         orderName: 'Vue高仿小米商城2020年2月20日支付宝功能',
         amount: 0.01, // 元
         payType: 1
-      }, true)
+      })
       this.content = res.content
       setTimeout(() => {
         document.getElementById('bestPayForm').submit()

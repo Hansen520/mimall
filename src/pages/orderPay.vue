@@ -81,6 +81,7 @@ import OrderHeader from './../components/OrderHeader'
 import QRCode from 'qrcode'
 import ScanPayCode from './../components/ScanPayCode'
 import Modal from './../components/Modal'
+import axios from 'axios'
 export default {
   name: 'order-pay',
   data () {
@@ -116,49 +117,71 @@ export default {
     this.getOrderDetail()
   },
   methods: {
-    getOrderDetail () {
-      this.axios.get(`/orders/${this.orderNo}`).then((res) => {
-        const item = res.shippingVo
-        this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress}`
-        this.orderDetail = res.orderItemVoList
-        this.payment = res.payment
+    // 订单详情
+    async getOrderDetail () {
+      const res = await this.$Http.orderDetail({
+        id: this.orderNo
       })
+      const item = res.shippingVo
+      this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress}`
+      this.orderDetail = res.orderItemVoList
+      this.payment = res.payment
+      // this.axios.get(`/orders/${this.orderNo}`).then((res) => {
+      //   const item = res.shippingVo
+      //   this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress}`
+      //   this.orderDetail = res.orderItemVoList
+      //   this.payment = res.payment
+      // })
     },
     // 1支付宝支付，2微信支付
-    pay (paytype) {
+    async pay (paytype) {
       if (paytype === 1) {
         this.paytype = 1
         // 打开支付宝支付页面，this.orderNo通过order-comfirm的路由传参过来的
         window.open('/#/order/alipay?orderId=' + this.orderNo, '_blank')
       } else if (paytype === 2) {
         this.paytype = 2
-        this.axios.post('/pay', {
+        const { content } = await this.$Http.pay({
           orderId: this.orderNo,
-          orderName: 'Vue高仿小米商城2020年2月21日支付宝功能',
+          orderName: 'Vue高仿小米商城2020年4月27日支付宝功能',
           amount: 0.01, // 元
           payType: 2
-        }).then(({ content }) => {
-          // 如果请求接口成功，则通过二维码插件的形式传回来
-          QRCode.toDataURL(content)
-            .then(url => {
-              this.qrCode = url
-              this.showWxpay = true
-              // 轮询
-              this.loopOrderState()
-            })
-            .catch(() => {
-              this.$message.error('此支付二维码失效！')
-            })
         })
+        QRCode.toDataURL(content)
+          .then(url => {
+            this.qrCode = url
+            this.showWxpay = true
+            // 轮询
+            this.loopOrderState()
+            console.log(this.orderNo)
+          })
+        // this.axios.post('/pay', {
+        //   orderId: this.orderNo,
+        //   orderName: 'Vue高仿小米商城2020年2月21日支付宝功能',
+        //   amount: 0.01, // 元
+        //   payType: 2
+        // }).then(({ content }) => {
+        //   // 如果请求接口成功，则通过二维码插件的形式传回来
+        //   QRCode.toDataURL(content)
+        //     .then(url => {
+        //       this.qrCode = url
+        //       this.showWxpay = true
+        //       // 轮询
+        //       this.loopOrderState()
+        //     })
+        //     .catch(() => {
+        //       this.$message.error('此支付二维码失效！')
+        //     })
+        // })
       }
     },
     // 轮询当前订单支付状态
     loopOrderState () {
       // 就是说每隔1000mm去调用下接口，看看有没有完成支付，如果完成就自动跳到订单页面
       this.T = setInterval(() => {
-        this.axios.get(`/orders/${this.orderNo}`).then((res) => {
+        axios.get(`/orders/${this.orderNo}`).then((res) => {
           if (res.status === 20) {
-            // 清除定时器，防止关闭后一直轮询
+          // 清除定时器，防止关闭后一直轮询
             clearInterval(this.T)
             this.goOrderList()
           }

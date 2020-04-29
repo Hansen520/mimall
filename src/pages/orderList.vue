@@ -108,25 +108,39 @@ export default {
         this.pageNum++
       }, 1000)
     },
-    getOrderList () {
-      this.axios.get('/orders', {
-        params: {
-          // 把每页的展示的大小给后台
-          pageSize: this.pageSize,
-          // 把当前页数给后台
-          pageNum: this.pageNum
-        }
-      }).then((res) => {
-        this.loading = false
-        // 为了让list进行拼接出现
-        this.list = this.list.concat(res.list)
-        // 判断有没有下一页，后台传入，是通过距离底下410px距离时才开始判断，infinite-scroll-distance="410"
-        if (res.hasNextPage) {
-          this.busy = false
-        } else {
-          this.busy = true
-        }
+    async getOrderList () {
+      // get
+      const res = await this.$Http.orderList({
+        // 把每页的展示的大小给后台
+        pageSize: this.pageSize,
+        // 把当前页数给后台
+        pageNum: this.pageNum
       })
+      this.loading = false
+      this.list = this.list.concat(res.list)
+      if (res.hasNextPage) {
+        this.busy = false
+      } else {
+        this.busy = true
+      }
+      // this.axios.get('/orders', {
+      //   params: {
+      //     // 把每页的展示的大小给后台
+      //     pageSize: this.pageSize,
+      //     // 把当前页数给后台
+      //     pageNum: this.pageNum
+      //   }
+      // }).then((res) => {
+      //   this.loading = false
+      //   // 为了让list进行拼接出现
+      //   this.list = this.list.concat(res.list)
+      //   // 判断有没有下一页，后台传入，是通过距离底下410px距离时才开始判断，infinite-scroll-distance="410"
+      //   if (res.hasNextPage) {
+      //     this.busy = false
+      //   } else {
+      //     this.busy = true
+      //   }
+      // })
     },
     goPay (orderNo) {
       this.$router.push({

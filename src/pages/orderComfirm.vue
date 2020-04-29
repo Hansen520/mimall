@@ -196,10 +196,12 @@ export default {
   },
   methods: {
     // 获得地址列表
-    getAddressList () {
-      this.axios.get('/shippings').then((res) => {
-        this.list = res.list
-      })
+    async getAddressList () {
+      const res = await this.$Http.getAddress()
+      this.list = res.list
+      // this.axios.get('/shippings').then((res) => {
+      //   this.list = res.list
+      // })
     },
     delAddress (item) {
       // 把数据给checkedItem
@@ -220,21 +222,12 @@ export default {
       this.showEditModal = true
     },
     // 地址删除、编辑、新增功能的提交,这里是值得自己学习的，减少代码冗余
-    submitAddress () {
+    async submitAddress () {
       const { checkedItem, userActions } = this
-      let method
-      let url
+      // let method
+      // let url
       let data = {}
-      if (userActions === 1) {
-        method = 'post'
-        url = '/shippings'
-      } else if (userActions === 2) {
-        method = 'put'
-        url = `/shippings/${checkedItem.id}`
-      } else if (userActions === 3) {
-        method = 'delete'
-        url = `/shippings/${checkedItem.id}`
-      }
+
       // 新增或者编辑时候发生的事情,利用双向绑定来做
       if (userActions === 1 || userActions === 2) {
         const { receiverName, receiverMobile, receiverProvince, receiverCity, receiverDistrict, receiverAddress, receiverZip } = checkedItem
@@ -267,16 +260,42 @@ export default {
           receiverZip
         }
       }
+      if (userActions === 1) {
+        // post
+        await this.$Http.addAddress(data)
+        this.closeModal()
+        this.getAddressList()
+        // method = 'post'
+        // url = '/shippings'
+      } else if (userActions === 2) {
+        // put
+        await this.$Http.updateAddress({
+          // 用于拼接
+          id: checkedItem.id,
+          ...data
+        })
+        this.closeModal()
+        this.getAddressList()
+        // method = 'put'
+        // url = `/shippings/${checkedItem.id}`
+      } else if (userActions === 3) {
+        // delete
+        await this.$Http.deleteAddress({ id: checkedItem.id })
+        this.closeModal()
+        this.getAddressList()
+        // method = 'delete'
+        // url = `/shippings/${checkedItem.id}`
+      }
 
       // 这是一种新型的用法。类似this.axios.get/post/put/delete
-      this.axios({ method, url, data }).then(() => {
-        this.closeModal()
-        // 这里避免用户并行，重新拉取一次数据
-        this.getAddressList()
-        this.$message.success('操作成功')
-      }).catch((err) => {
-        this.$message.error(err)
-      })
+      // this.axios({ method, url, data }).then(() => {
+      //   this.closeModal()
+      //   // 这里避免用户并行，重新拉取一次数据
+      //   this.getAddressList()
+      //   this.$message.success('操作成功')
+      // }).catch((err) => {
+      //   this.$message.error(err)
+      // })
     },
     // 关闭modal后发生的事情
     closeModal () {
@@ -286,36 +305,55 @@ export default {
       this.showEditModal = false
     },
     // 获得购物车列表
-    getCartList () {
-      this.axios.get('/carts').then((res) => {
-        const list = res.cartProductVoList
-        this.cartTotalPrice = res.cartTotalPrice
-        this.cartList = list.filter(item => item.productSelected)
-        // 遍历器，把已经选择的商品数量遍历出来
-        this.cartList.map((item) => {
-          this.count += item.quantity
-        })
+    async getCartList () {
+      const res = await this.$Http.cart()
+      const list = res.cartProductVoList
+      this.cartTotalPrice = res.cartTotalPrice
+      this.cartList = list.filter(item => item.productSelected)
+      // 遍历器，把已经选择的商品数量遍历出来
+      this.cartList.map((item) => {
+        this.count += item.quantity
       })
+
+      // this.axios.get('/carts').then((res) => {
+      //   const list = res.cartProductVoList
+      //   this.cartTotalPrice = res.cartTotalPrice
+      //   this.cartList = list.filter(item => item.productSelected)
+      //   // 遍历器，把已经选择的商品数量遍历出来
+      //   this.cartList.map((item) => {
+      //     this.count += item.quantity
+      //   })
+      // })
     },
     // 订单提交
-    orderSubmit () {
+    async orderSubmit () {
       // 直接判断全部列表中的索引，这是巧妙的用法
       const item = this.list[this.checkIndex]
       if (!item) {
         this.$message.error('请选择一个地址')
         return false
       }
-      this.axios.post('/orders', {
-        // 传递当前选定的地址
+      // post
+      const res = await this.$Http.addOrder({
         shippingId: item.id
-      }).then((res) => {
-        this.$router.push({
-          path: '/order/pay',
-          query: {
-            orderNo: res.orderNo
-          }
-        })
       })
+      this.$router.push({
+        path: '/order/pay',
+        query: {
+          orderNo: res.orderNo
+        }
+      })
+      // this.axios.post('/orders', {
+      //   // 传递当前选定的地址
+      //   shippingId: item.id
+      // }).then((res) => {
+      //   this.$router.push({
+      //     path: '/order/pay',
+      //     query: {
+      //       orderNo: res.orderNo
+      //     }
+      //   })
+      // })
     }
   }
 }

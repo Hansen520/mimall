@@ -338,8 +338,7 @@ export default {
         {
           productId: id,
           selected: true
-        },
-        true
+        }
       )
       this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
       this.showModal = true

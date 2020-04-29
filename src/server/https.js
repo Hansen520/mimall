@@ -7,7 +7,7 @@ const instance = axios.create({
   // 基础地址
   baseURL: '/api',
   // 超时不请求时间
-  timeout: 1000
+  timeout: 5000
 })
 // 请求方法容器
 const Http = {}
@@ -35,22 +35,33 @@ for (const key in service) {
     }
     // 不同请求的判断
     let response = {}// 去请求的返回值
+    let url
     if (api.method === 'put' || api.method === 'post' || api.method === 'patch') {
+      // 用于put的拼接
+      if (newParams.id) {
+        url = api.url + '/' + newParams.id
+      } else {
+        url = api.url
+      }
       try {
-        response = await instance[api.method](api.url, newParams, config)
+        response = await instance[api.method](url, newParams, config)
       } catch (err) {
         response = err
       }
     } else if (api.method === 'get' || api.method === 'delete') {
-      console.log(api.method)
-      config.params = newParams
+      if (newParams.id) {
+        alert(newParams.id)
+        url = api.url + '/' + newParams.id
+      } else {
+        url = api.url
+        config.params = newParams
+      }
       try {
-        response = await instance[api.method](api.url, config)
+        response = await instance[api.method](url, config)
       } catch (err) {
         response = err
       }
     }
-    console.log(response)
     return response
   }
 }
@@ -66,6 +77,7 @@ instance.interceptors.request.use(config => {
     forbidClick: true,
     message: '加载中...'
   })
+  console.log(config)
   return config
 }, () => {
   // 请求错误

@@ -131,7 +131,7 @@ export default {
         id: item.productId,
         quantity,
         selected
-      }, true)
+      })
       this.renderCartData(res)
       // this.axios.put(`/carts/${item.productId}`, {
       //   quantity,
@@ -159,7 +159,7 @@ export default {
     },
     // 控制全选功能
     async toggleAllSelect () {
-      const res = this.allChecked ? await this.$Http.allSelect({}, true) : await this.$Http.notAllSelect({}, true)
+      const res = this.allChecked ? await this.$Http.notAllSelect() : await this.$Http.allSelect()
       // const res = await this.$http.allSelect()
       this.renderCartData(res)
       // this.axios.put(url).then((res) => {
