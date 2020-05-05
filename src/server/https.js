@@ -1,73 +1,47 @@
 import axios from 'axios'
-import service from './PagesApi'
-import { Toast } from 'vant'
+import { Toast } from 'vant'// 可有可无，你也可以用elementUI
 
-// 循环遍历输出
+// 循环遍历输出不同的请方法
 const instance = axios.create({
   // 基础地址
   baseURL: '/api',
-  // 超时不请求时间
-  timeout: 5000
+  // 超时不请求
+  timeout: 8000,
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest'
+  }
 })
-// 请求方法容器
-const Http = {}
-// 请求格式
-for (const key in service) {
-  const api = service[key]
-  Http[key] = async function (
-    // 请求参数get:url | put(data) | post(data) | patch(data) | delete:url
-    params,
-    // 标识是否为form请求
-    isFormData = false,
-    // 配置参数
-    config = {}
-  ) {
-    let newParams = {}
-    if (params && isFormData) {
-      // 通过FormData构造函数创建一个空对象
-      newParams = new FormData()
-      for (const i in params) {
-        // 可以通过append()方法来追加数据
-        newParams.append(i, params[i])
-      }
-    } else {
-      newParams = params
-    }
-    // 不同请求的判断
-    let response = {}// 去请求的返回值
-    let url
-    if (api.method === 'put' || api.method === 'post' || api.method === 'patch') {
-      // 用于put的拼接
-      if (newParams.id) {
-        url = api.url + '/' + newParams.id
-      } else {
-        url = api.url
-      }
-      try {
-        response = await instance[api.method](url, newParams, config)
-      } catch (err) {
-        response = err
-      }
-    } else if (api.method === 'get' || api.method === 'delete') {
-      if (newParams.id) {
-        alert(newParams.id)
-        url = api.url + '/' + newParams.id
-      } else {
-        url = api.url
-        config.params = newParams
-      }
-      try {
-        response = await instance[api.method](url, config)
-      } catch (err) {
-        response = err
-      }
-    }
-    return response
+
+// 方法，连接，数据
+const http = function (method, url, data, config) {
+  // 将请求方法全都变为小写
+  method = method.toLocaleLowerCase()
+  // post请求
+  if (method === 'post') {
+    return instance.post(url, data, config)
+  } else if (method === 'get') {
+    return instance.get(url, {
+      params: data
+    }, config)
+  } else if (method === 'delete') {
+    return instance.delete(url, {
+      params: data
+    })
+  } else if (method === 'put') {
+    return instance.put(url, {
+      params: data
+    })
+  } else if (method === 'patch') {
+    return instance.patch(url, {
+      params: data
+    })
   }
 }
 
-// 请求拦截器
+// 添加请求拦截器
 instance.interceptors.request.use(config => {
+  // config 为请求的一些配置 例如：请求头 请求时间 Token  可以根据自己的项目需求个性化配置
+  // config.headers.token = ''
   // 发起请求前做什么
   Toast.loading({
     // 取消遮罩
@@ -77,18 +51,12 @@ instance.interceptors.request.use(config => {
     forbidClick: true,
     message: '加载中...'
   })
-  console.log(config)
   return config
-}, () => {
-  // 请求错误
-  Toast.clear()
-  Toast('请求错误，请稍后重试')
+}, error => {
+  return Promise.reject(error)
 })
-
-// 响应拦截器
+// 添加响应拦截器
 instance.interceptors.response.use(response => {
-  // 请求成功，Toast就清理掉
-  Toast.clear()
   const path = location.hash
   const res = response.data
   // 商定 状态码0是成功，10是未登入跳到登入页面
@@ -106,12 +74,9 @@ instance.interceptors.response.use(response => {
     Toast.error(res.msg)
     return Promise.reject(res.msg)
   }
-}, (error) => {
-  // 这里是后台发来的报错
-  const res = error.response
-  Toast.error(res.data.message.substr(-6))
-  return Promise.reject(error)
-  // 如果返回的是flase，则需要在前面添加catch提示错误
+}, () => {
+  Toast.clear()
+  Toast('返回错误')
 })
 
-export default Http
+export default http
