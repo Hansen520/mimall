@@ -6,10 +6,10 @@ const instance = axios.create({
   // 基础地址
   baseURL: '/api',
   // 超时不请求
-  timeout: 8000,
-  headers: {
-    'X-Requested-With': 'XMLHttpRequest'
-  }
+  timeout: 8000
+  // headers: {
+  //   'X-Requested-With': 'XMLHttpRequest'
+  // }
 })
 
 // 方法，连接，数据
@@ -22,19 +22,13 @@ const http = function (method, url, data, config) {
   } else if (method === 'get') {
     return instance.get(url, {
       params: data
-    }, config)
+    })
   } else if (method === 'delete') {
-    return instance.delete(url, {
-      params: data
-    })
+    return instance.delete(url, data)
   } else if (method === 'put') {
-    return instance.put(url, {
-      params: data
-    })
+    return instance.put(url, data)
   } else if (method === 'patch') {
-    return instance.patch(url, {
-      params: data
-    })
+    return instance.patch(url, data)
   }
 }
 
@@ -43,22 +37,24 @@ instance.interceptors.request.use(config => {
   // config 为请求的一些配置 例如：请求头 请求时间 Token  可以根据自己的项目需求个性化配置
   // config.headers.token = ''
   // 发起请求前做什么
-  Toast.loading({
-    // 取消遮罩
-    mask: false,
-    duration: 0,
-    // 动画出现时候禁止其他点击
-    forbidClick: true,
-    message: '加载中...'
-  })
+  // Toast.loading({
+  //   // 取消遮罩
+  //   mask: false,
+  //   duration: 0,
+  //   // 动画出现时候禁止其他点击
+  //   forbidClick: true,
+  //   message: '加载中...'
+  // })
   return config
 }, error => {
   return Promise.reject(error)
 })
 // 添加响应拦截器
 instance.interceptors.response.use(response => {
+  // 请求成功，Toast就清理掉
   const path = location.hash
   const res = response.data
+
   // 商定 状态码0是成功，10是未登入跳到登入页面
   if (res.status === 0) {
     return res.data
@@ -67,16 +63,18 @@ instance.interceptors.response.use(response => {
     if (path !== '#/index') {
       window.location.href = '#/login'
     }
-    Toast.error(res.msg)
+    Toast(res.msg)
     return Promise.reject(res.msg)
   } else {
     // 为了防止没有登入也会跳到首页
-    Toast.error(res.msg)
+    Toast(res.msg)
     return Promise.reject(res.msg)
   }
-}, () => {
+}, (error) => {
   Toast.clear()
-  Toast('返回错误')
+  const res = error.response
+  Toast(res.data.message.substr(-6))
+  return Promise.reject(error)
 })
 
 export default http

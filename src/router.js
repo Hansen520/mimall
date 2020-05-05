@@ -71,5 +71,8 @@ export default new Router({
       component: resolve => require(['./pages/login.vue'], resolve)
     }
 
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })

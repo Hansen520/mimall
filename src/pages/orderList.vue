@@ -55,7 +55,6 @@
             <img src="/imgs/loading-svg/loading-spinning-bubbles.svg" alt="" v-show="loading">
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -66,6 +65,7 @@ import OrderHeader from './../components/OrderHeader'
 import Loading from './../components/Loading'
 import NoData from './../components/NoData'
 import infiniteScroll from 'vue-infinite-scroll'
+import { getOrderList } from './../server/OrderApi'
 export default {
   name: 'order-list',
   data () {
@@ -110,7 +110,7 @@ export default {
     },
     async getOrderList () {
       // get
-      const res = await this.$Http.orderList({
+      const res = await getOrderList({
         // 把每页的展示的大小给后台
         pageSize: this.pageSize,
         // 把当前页数给后台

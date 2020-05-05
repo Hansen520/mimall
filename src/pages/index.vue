@@ -165,6 +165,9 @@ import SuerviceBar from './../components/ServiceBar'
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import Modal from './../components/Modal'
+// 接口获取
+import { getProductionList } from './../server/ProductionApi'
+import { addToCart } from './../server/cartApi'
 export default {
   // name这个名字可以随意定义，与本文件名没有任何关系，其他页面的也是一样道理，但是为了好记，我们就定义成index
   name: 'index',
@@ -327,14 +330,14 @@ export default {
   },
   methods: {
     async init () {
-      const { list } = await this.$Http.getProducts({
+      const { list } = await getProductionList({
         categoryId: 100012
         // pageSize: 8
       })
       this.phoneList = [list.slice(0, 4), list.slice(4, 8)]
     },
     async addCart (id) {
-      const res = await this.$Http.addCart(
+      const res = await addToCart(
         {
           productId: id,
           selected: true

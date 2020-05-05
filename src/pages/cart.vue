@@ -68,6 +68,7 @@
 import OrderHeader from './../components/OrderHeader'
 import NavFooter from './../components/NavFooter'
 import Modal from './../components/Modal'
+import { getCartList, updateCartNumber, removeCartProduct, selectAll, unSelectAll } from './../server/cartApi'
 
 export default {
   name: 'cart',
@@ -104,7 +105,7 @@ export default {
   methods: {
     // 拿取购物车列表
     async getCartList () {
-      const res = await this.$Http.cart()
+      const res = await getCartList()
       this.renderCartData(res)
       // 这个是解构写法，返回后台数据
       // this.axios.get('carts').then((res) => {
@@ -127,11 +128,11 @@ export default {
         // 如果选中就让他不选中，取反
         selected = !item.productSelected
       }
-      const res = await this.$Http.updateCart({
-        id: item.productId,
-        quantity,
-        selected
-      })
+      const res = await updateCartNumber(
+        item.productId, {
+          quantity,
+          selected
+        })
       this.renderCartData(res)
       // this.axios.put(`/carts/${item.productId}`, {
       //   quantity,
@@ -147,9 +148,9 @@ export default {
     },
     // 判断是否要删除商品
     async delProductSubmit () {
-      const res = await this.$Http.deleteCart({
-        id: this.productId
-      })
+      const res = await removeCartProduct(
+        this.productId
+      )
       this.showModal = false
       this.renderCartData(res)
       // this.axios.delete(`/carts/${this.productId}`).then((res) => {
@@ -159,7 +160,7 @@ export default {
     },
     // 控制全选功能
     async toggleAllSelect () {
-      const res = this.allChecked ? await this.$Http.notAllSelect() : await this.$Http.allSelect()
+      const res = this.allChecked ? await unSelectAll() : await selectAll()
       // const res = await this.$http.allSelect()
       this.renderCartData(res)
       // this.axios.put(url).then((res) => {

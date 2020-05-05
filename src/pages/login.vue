@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { login, register } from './../server/UserApi'
 export default {
   name: 'login',
   data () {
@@ -56,7 +57,7 @@ export default {
         this.$message.error('密码不能为空')
         return
       }
-      const res = await this.$Http.login({
+      const res = await login({
         username,
         password
       })
@@ -83,7 +84,7 @@ export default {
     // 注册也写在一个页面里面，毕竟自己写的页面无所谓
     async register () {
       const { username, password } = this
-      await this.$Http.logout({
+      await register({
         username,
         password,
         email: 'pptppt@163.com'

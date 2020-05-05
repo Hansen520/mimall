@@ -62,6 +62,8 @@
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import ProductParam from './../components/ProductParam'
 import ServiceBar from './../components/ServiceBar'
+import { addToCart } from './../server/cartApi'
+import { getProductionDetail } from './../server/ProductionApi'
 export default {
   name: 'detail',
   data () {
@@ -93,19 +95,27 @@ export default {
     this.getProductInfo()
   },
   methods: {
-    getProductInfo () {
-      this.axios.get(`/products/${this.id}`).then((res) => {
-        this.product = res
-      })
+    async getProductInfo () {
+      const res = await getProductionDetail()
+      this.product = res
+      // this.axios.get(`/products/${this.id}`).then((res) => {
+      // this.product = res
+      // })
     },
-    addCart () {
-      this.axios.post('/carts', {
+    async addCart () {
+      const res = await addToCart({
         productId: this.id,
         selected: true
-      }).then((res = 0) => {
-        this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
-        this.$router.push('/cart')
       })
+      this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
+      this.$router.push('/cart')
+      // this.axios.post('/carts', {
+      //   productId: this.id,
+      //   selected: true
+      // }).then((res = 0) => {
+      //   this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
+      //   this.$router.push('/cart')
+      // })
     }
   }
 }

@@ -5,7 +5,8 @@
 </template>
 
 <script>
-
+import { computeAllGoodsSum } from './server/cartApi'
+import { getUserInfo } from './server/UserApi'
 export default {
   name: 'app',
   components: {
@@ -24,8 +25,8 @@ export default {
   methods: {
     // post带true,get不带true
     async getUser () {
-      // const res = await this.$Http.getRightUser()
-      // this.$store.dispatch('saveUserName', res.username)
+      const res = await getUserInfo()
+      this.$store.dispatch('saveUserName', res.username)
       // 都给一个默认值以免未登入时，数据为空
       // this.axios.get('/user').then((res = {}) => {
       //   // 向Actions派发数据，参数一名字自定义，参数二为派发的数据
@@ -33,7 +34,7 @@ export default {
       // })
     },
     async getCartCount () {
-      const res = await this.$Http.getNum()
+      const res = await computeAllGoodsSum()
       this.$store.dispatch('saveCartCount', res)
       // this.axios.get('/carts/products/sum').then((res = 0) => {
       //   // todo vuex
