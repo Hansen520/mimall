@@ -54,6 +54,7 @@
 <script>
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import ProductParam from './../components/ProductParam'
+import { getProductionDetail } from './../server/ProductionApi'
 export default {
   name: 'product',
   components: {
@@ -87,10 +88,7 @@ export default {
     async getProductInfo () {
       // 获取路由id
       const id = this.$route.params.id
-      // console.log(id)
-      const res = await this.$Http.getProductsId({
-        id
-      })
+      const res = await getProductionDetail(id)
       this.product = res
       // this.axios.get(`/products/${id}`).then((res) => {
       //   // console.log(res)
@@ -99,7 +97,7 @@ export default {
     },
     buy () {
       const id = this.$route.params.id
-      this.$route.push(`/detail/${id}`)
+      this.$router.push(`/detail/${id}`)
     },
     closeVideo () {
       this.showVideo = 'slideUp'

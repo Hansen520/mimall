@@ -161,6 +161,9 @@
 <script>
 import OrderHeader from './../components/OrderHeader'
 import Modal from './../components/Modal'
+import { getCartList } from './../server/cartApi'
+import { addOrder } from './../server/OrderApi'
+import { addAddress, deleteAddress, updateAddress, getAddress } from './../server/AddressApi'
 export default {
   name: 'order-comfirm',
   data () {
@@ -197,7 +200,7 @@ export default {
   methods: {
     // 获得地址列表
     async getAddressList () {
-      const res = await this.$Http.getAddress()
+      const res = await getAddress()
       this.list = res.list
       // this.axios.get('/shippings').then((res) => {
       //   this.list = res.list
@@ -262,25 +265,24 @@ export default {
       }
       if (userActions === 1) {
         // post
-        await this.$Http.addAddress(data)
+        await addAddress(data)
         this.closeModal()
         this.getAddressList()
         // method = 'post'
         // url = '/shippings'
       } else if (userActions === 2) {
         // put
-        await this.$Http.updateAddress({
+        await updateAddress({
           // 用于拼接
-          id: checkedItem.id,
-          ...data
-        })
+          id: checkedItem.id
+        }, data)
         this.closeModal()
         this.getAddressList()
         // method = 'put'
         // url = `/shippings/${checkedItem.id}`
       } else if (userActions === 3) {
         // delete
-        await this.$Http.deleteAddress({ id: checkedItem.id })
+        await deleteAddress({ id: checkedItem.id }, data)
         this.closeModal()
         this.getAddressList()
         // method = 'delete'
@@ -306,7 +308,7 @@ export default {
     },
     // 获得购物车列表
     async getCartList () {
-      const res = await this.$Http.cart()
+      const res = await getCartList()
       const list = res.cartProductVoList
       this.cartTotalPrice = res.cartTotalPrice
       this.cartList = list.filter(item => item.productSelected)
@@ -334,7 +336,7 @@ export default {
         return false
       }
       // post
-      const res = await this.$Http.addOrder({
+      const res = await addOrder({
         shippingId: item.id
       })
       this.$router.push({

@@ -81,7 +81,9 @@ import OrderHeader from './../components/OrderHeader'
 import QRCode from 'qrcode'
 import ScanPayCode from './../components/ScanPayCode'
 import Modal from './../components/Modal'
-import axios from 'axios'
+import { orderDetail } from './../server/OrderApi'
+import { pay } from './../server/PayApi'
+
 export default {
   name: 'order-pay',
   data () {
@@ -119,7 +121,7 @@ export default {
   methods: {
     // 订单详情
     async getOrderDetail () {
-      const res = await this.$Http.orderDetail({
+      const res = await orderDetail({
         id: this.orderNo
       })
       const item = res.shippingVo
@@ -141,7 +143,7 @@ export default {
         window.open('/#/order/alipay?orderId=' + this.orderNo, '_blank')
       } else if (paytype === 2) {
         this.paytype = 2
-        const { content } = await this.$Http.pay({
+        const { content } = await pay({
           orderId: this.orderNo,
           orderName: 'Vue高仿小米商城2020年4月27日支付宝功能',
           amount: 0.01, // 元
@@ -153,7 +155,6 @@ export default {
             this.showWxpay = true
             // 轮询
             this.loopOrderState()
-            console.log(this.orderNo)
           })
         // this.axios.post('/pay', {
         //   orderId: this.orderNo,
@@ -178,14 +179,13 @@ export default {
     // 轮询当前订单支付状态
     loopOrderState () {
       // 就是说每隔1000mm去调用下接口，看看有没有完成支付，如果完成就自动跳到订单页面
-      this.T = setInterval(() => {
-        axios.get(`/orders/${this.orderNo}`).then((res) => {
-          if (res.status === 20) {
-          // 清除定时器，防止关闭后一直轮询
-            clearInterval(this.T)
-            this.goOrderList()
-          }
-        })
+      this.T = setInterval(async () => {
+        const res = await orderDetail(this.orderNo)
+        if (res.status === 20) {
+        // 清除定时器，防止关闭后一直轮询
+          clearInterval(this.T)
+          this.goOrderList()
+        }
       }, 1000)
     },
     // 关闭微信弹框

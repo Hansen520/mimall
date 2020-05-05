@@ -117,6 +117,9 @@
 </template>
 
 <script>
+import { getProductionList } from './../server/ProductionApi'
+import { computeAllGoodsSum } from './../server/cartApi'
+import { logout } from './../server/UserApi'
 export default {
   name: 'nav-header',
   data () {
@@ -152,7 +155,7 @@ export default {
   },
   methods: {
     async getProductList () {
-      const { list } = await this.$Http.getProductsId({
+      const { list } = await getProductionList({
         categoryId: '100012'
       })
       this.phoneList = list.slice(0, 6)
@@ -170,14 +173,14 @@ export default {
     },
     // 获取购物车数量接口，这个接口在这里的设置是为了在退出后再登入购物车数量为0
     async getCartCount () {
-      const res = await this.$Http.getNum()
+      const res = await computeAllGoodsSum()
       this.$store.dispatch('saveCartCount', res)
       // this.axios.get('/carts/products/sum').then((res = 0) => {
       //   this.$store.dispatch('saveCartCount', res)
       // })
     },
     async logout () {
-      await this.$Http.logout()
+      await logout()
       this.$message.success('退出成功')
       this.$cookie.set('userId', '', { exppires: '-1' })
       this.$store.dispatch('saveUserName', '')

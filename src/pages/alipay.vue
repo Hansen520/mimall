@@ -14,6 +14,7 @@
 <script>
 import OrderHeader from './../components/OrderHeader'
 import Loading from './../components/Loading'
+import { pay } from './../server/PayApi'
 export default {
   // 取任何名字都行
   name: 'ali-pay',
@@ -34,7 +35,7 @@ export default {
   },
   methods: {
     async paySubmit () {
-      const res = await this.$Http.pay({
+      const res = await pay({
         orderId: this.orderId,
         orderName: 'Vue高仿小米商城2020年2月20日支付宝功能',
         amount: 0.01, // 元
