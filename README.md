@@ -36,9 +36,23 @@ export default new Router({
       }]
     }]
 ```
+
 像上面一样，home为主路由，而children里面为分路由。在主路由里面的vue页面上写上```<router-view>```标签，就可以将子路由的内容页面插入到里面。
 记住一定要先在main.js里面注册才能用哦
+异步按需加载
+``` 
 
+```javascript
+component: resolve => require(['./pages/product.vue'], resolve)  
+```
+或
+``` javascript
+const login = resolve => require.ensure([], () => resolve(require('./pages/login')), 'login')
+```
+或import
+```javascript
+() => import('./my-async-component')
+```
 ### storage
 这个主要设置localsession的封装的，用于会话处理机制的。
 

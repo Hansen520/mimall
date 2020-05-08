@@ -48,6 +48,7 @@
       </div>
     </div>
     <nav-footer></nav-footer>
+    <keep-alive>
     <modal
       title="提示"
       btnType="3"
@@ -61,6 +62,7 @@
         <p>确定要删除商品吗？</p>
       </template>
     </modal>
+    </keep-alive>
   </div>
 </template>
 

@@ -8,7 +8,7 @@ const instance = axios.create({
   // 超时不请求
   timeout: 8000
   // headers: {
-  //   'X-Requested-With': 'XMLHttpRequest'
+  //   'X-Requested-With': 'gitXMLHttpRequest'
   // }
 })
 

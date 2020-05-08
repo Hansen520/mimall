@@ -13,7 +13,9 @@ import Index from './pages/index'
 // import OrderPay from './pages/orderPay'
 
 Vue.use(Router)
-
+// require.ensure(dependencies: string[], callback: function(require),chunkName:string)
+const login = resolve => require.ensure([], () => resolve(require('./pages/login')), 'login')
+const cart = resolve => require.ensure([], () => resolve(require('./pages/cart')), 'Imcart')
 export default new Router({
   routes: [
     {
@@ -40,7 +42,7 @@ export default new Router({
     }, {
       path: '/cart',
       name: 'cart',
-      component: resolve => require(['./pages/cart.vue'], resolve)
+      component: cart
     }, {
       path: '/order',
       name: 'order',
@@ -68,7 +70,8 @@ export default new Router({
     }, {
       path: '/login',
       name: 'login',
-      component: resolve => require(['./pages/login.vue'], resolve)
+      // component: resolve => require(['./pages/login.vue'], resolve)
+      component: login
     }
 
   ],
